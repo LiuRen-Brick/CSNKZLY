@@ -14,9 +14,12 @@ typedef enum
 	A_SCLK,
 	A_SDATA,
 	A_FSYNC,
+	BAT_STDBY,
+	BAT_CHARGE,
 	DevGpioMaxChannlLab,
 }DEVGpioChannlLabType;
 
 void DevGpio_SetOutPut(uint8_t ch,BitAction BitVal);
+uint8_t DevGpio_ReadInPut(uint8_t ch);
 
 #endif

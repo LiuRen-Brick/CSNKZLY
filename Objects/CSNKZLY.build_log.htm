@@ -22,11 +22,15 @@ Dialog DLL:      TARMCM1.DLL V1.14.1.0
  
 <h2>Project:</h2>
 C:\Users\15754\Desktop\CSNKZLY\CSNKZLY.uvprojx
-Project File Date:  04/17/2024
+Project File Date:  04/26/2024
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Project'
+compiling dev_gpio.c...
+compiling dev_adc.c...
+linking...
+Program Size: Code=8960 RO-data=1708 RW-data=140 ZI-data=1636  
 FromELF: creating hex file...
 ".\Objects\CSNKZLY.axf" - 0 Error(s), 0 Warning(s).
 
@@ -49,6 +53,7 @@ Package Vendor: FMD
    * Component: EXTI Version: 1.0.1
    * Component: FLASH Version: 1.0.1
    * Component: GPIO Version: 1.0.1
+   * Component: IWDG Version: 1.0.1
    * Component: MISC Version: 1.0.1
    * Component: PWR Version: 1.0.1
    * Component: RCC Version: 1.0.1
@@ -72,10 +77,10 @@ Package Vendor: FMD
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_adc.c
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:COMMON:1.0.1
-      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_conf.h
-      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_it.h
-      Source file:   Drivers\FT32F0xx_Driver\templates\Src\ft32f0xx_it.c
       Include file:  Drivers\FT32F0xx_Driver\templates\Inc\main.h
+      Source file:   Drivers\FT32F0xx_Driver\templates\Src\ft32f0xx_it.c
+      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_it.h
+      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_conf.h
       Source file:   Drivers\FT32F0xx_Driver\templates\Src\main.c
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:DEBUG:1.0.1
@@ -92,6 +97,9 @@ Package Vendor: FMD
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:GPIO:1.0.1
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_gpio.c
+
+   * Component: FMD.StdDriverOne::Device:FT32Driver:IWDG:1.0.1
+      Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_iwdg.c
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:MISC:1.0.1
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_misc.c

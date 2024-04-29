@@ -6,7 +6,8 @@
 typedef enum
 {
 	SET_PWM1,
-	SET_PWM14,
+	SET_PWM2,
+	SET_PWM3,
 	SET_PWM_MAX_NUM,
 }PWMSETTABLE;
 

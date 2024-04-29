@@ -34,8 +34,9 @@ void FT32_GPIO_Init(void);
 void FT32_EXIT_Init(void);
 void ADC_DMA_Config(void);
 void Tim3BaseInit(void);
-void Tim14BaseInit(void);
+void Tim16BaseInit(void);
 void Tim1BaseInit(void);
+void IWDG_Config(void);
 
 #endif /* __MAIN_H */
 

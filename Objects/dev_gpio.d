@@ -17,6 +17,7 @@
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_exti.h
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_flash.h
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_gpio.h
+.\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_iwdg.h
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_misc.h
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_pwr.h
 .\objects\dev_gpio.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_rcc.h

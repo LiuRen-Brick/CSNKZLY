@@ -30,6 +30,8 @@
 #define RTE_DEVICE_FLASH
 /*  FMD.StdDriverOne::Device:FT32Driver:GPIO:1.0.1 */
 #define RTE_DEVICE_GPIO
+/*  FMD.StdDriverOne::Device:FT32Driver:IWDG:1.0.1 */
+#define RTE_DEVICE_IWDG
 /*  FMD.StdDriverOne::Device:FT32Driver:MISC:1.0.1 */
 #define RTE_DEVICE_MISC
 /*  FMD.StdDriverOne::Device:FT32Driver:PWR:1.0.1 */

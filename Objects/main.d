@@ -16,6 +16,7 @@
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_exti.h
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_flash.h
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_gpio.h
+.\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_iwdg.h
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_misc.h
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_pwr.h
 .\objects\main.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_rcc.h
@@ -25,3 +26,8 @@
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\main.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\main.o: ..\CSNKZLY\systick.h
+.\objects\main.o: ..\CSNKZLY\dev_adc.h
+.\objects\main.o: ..\CSNKZLY\dev_ad9877.h
+.\objects\main.o: ..\CSNKZLY\dev_gpio.h
+.\objects\main.o: ..\CSNKZLY\dev_pwm.h
