@@ -371,14 +371,14 @@ ARM Macro Assembler    Page 6
               00000400 
               00000200 
               00000000 
-Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0 --apcs=interw
-ork --depend=.\objects\startup_ft32f030x8.d -o.\objects\startup_ft32f030x8.o -I
-.\RTE\Device\FT32F030G8BUx -I.\RTE\_Project -ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSI
-S\Core\Include -ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Inc
-lude -ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc --predef
-ine="__UVISION_VERSION SETA 527" --predefine="_RTE_ SETA 1" --predefine="FT32F0
-30x8 SETA 1" --list=.\listings\startup_ft32f030x8.lst RTE\Device\FT32F030G8BUx\
-startup_ft32f030x8.s
+Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M0 --depend=.\ob
+jects\startup_ft32f030x8.d -o.\objects\startup_ft32f030x8.o -I.\RTE\Device\FT32
+F030G8BUx -I.\RTE\_Project -ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include -I
+D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include -ID:\Arm\Pac
+ks\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc --predefine="__UVISION_VE
+RSION SETA 527" --predefine="_RTE_ SETA 1" --predefine="FT32F030x8 SETA 1" --li
+st=.\listings\startup_ft32f030x8.lst RTE\Device\FT32F030G8BUx\startup_ft32f030x
+8.s
 
 
 

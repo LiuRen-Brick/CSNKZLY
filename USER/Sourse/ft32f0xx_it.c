@@ -61,36 +61,19 @@ void HardFault_Handler(void)
   {
   }
 }
-
-/**
-  * @brief  This function handles SVCall exception.
-  * @param  None
-  * @retval None
-  */
-void SVC_Handler(void)
-{
-}
-
-/**
-  * @brief  This function handles PendSVC exception.
-  * @param  None
-  * @retval None
-  */
-void PendSV_Handler(void)
-{
-}
-
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
   * @retval None
   */
+/*
 void SysTick_Handler(void)
 {
 	 TimingDelay_Decrement();
 	 KEY1_Count++;
 	 KEY2_Count++;
 }
+*/
 
 /**
   * @brief  This function handles TIM14 global interrupt request.
@@ -109,7 +92,10 @@ void TIM14_IRQHandler(void)
   */
 void TIM1_BRK_UP_TRG_COM_IRQHandler(void)
 {
-	
+	if(TIM_GetITStatus(TIM1,TIM_IT_Update) != RESET)
+	{
+		TIM_ClearITPendingBit(TIM1, TIM_IT_Update);
+	}
 }
 
 /**

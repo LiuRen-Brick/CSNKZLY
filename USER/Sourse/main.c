@@ -17,6 +17,21 @@
 	*	Corporation.
 	******************************************************************************
 	*/
+	
+/*
+ * Keil 编译后 Flash 和 RAM 占用情况：
+ * Program Size: Code=15236 RO-data=1708 RW-data=240 ZI-data=5440
+ *
+ * Code -- 代码
+ * RO-data -- 常量
+ * RW-data -- 可读写变量，已初始化
+ * ZI-data -- 可读写变量，未初始化
+ *
+ * 以上flash和ram占用情况：flash = 64K	RAM = 8K
+ * flash = Code + RO-data + RW-data = 15236 + 1708 + 240 = 17184 bytes = 16.78kb
+ * ram = RW-data + ZI-data = 240 + 5440 = 5680 bytes = 5.55kb
+ */
+
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -35,6 +50,7 @@ uint8_t Bat_Stdby;
 uint8_t Bat_Charge;
 extern uint32_t KEY1_Count;
 extern uint32_t KEY2_Count;
+void test1(void* pvParam);
 
 extern uint8_t KEY1_Flg;
 extern uint8_t KEY2_Flg;
@@ -62,8 +78,15 @@ int main(void)
 	
 	/* Initialize SysTick Timer*/
 	SystickInit();
-	
 	AD9833_InitIo(AD9877_Ch_A);
+	
+	
+	/* Create tasks 创建任务 */
+	xTaskCreate(test1, (char const*)"vtest1", 100, NULL, 1, NULL);	
+	
+	/* Start the FreeRTOS scheduler 启动调度器 */
+	vTaskStartScheduler(); //调度器自动创建空任务
+	
 	
 	while(1)
 	{
@@ -410,3 +433,28 @@ void IWDG_Config(void)
 
 
 /************************ (C) COPYRIGHT Fremont Micro Devices *****END OF FILE****/
+/********************************************************************************
+*
+*
+*
+*
+*********************************************************************************/
+void test1(void* pvParam)
+{
+	for(;;)
+	{
+		
+			vTaskDelay(100);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+

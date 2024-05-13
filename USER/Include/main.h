@@ -28,6 +28,11 @@
 #include "ft32f0xx_gpio.h"
 #include <stdbool.h>
 
+#include "FreeRTOS.h"
+#include "task.h"
+#include "queue.h"
+#include "semphr.h"
+
 #define ADC1_DR_Address		0x40012400 + 0X40
 
 void FT32_GPIO_Init(void);
