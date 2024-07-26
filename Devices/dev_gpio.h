@@ -14,8 +14,8 @@ typedef enum
 	A_SCLK,
 	A_SDATA,
 	A_FSYNC,
-	BAT_STDBY,
-	BAT_CHARGE,
+	POWER,
+	SWITCH,
 	DevGpioMaxChannlLab,
 }DEVGpioChannlLabType;
 

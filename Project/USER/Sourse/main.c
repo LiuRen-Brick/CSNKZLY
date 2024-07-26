@@ -56,10 +56,13 @@ int main(void)
 	FT32_EXIT_Init();
 	ADC_DMA_Config();
 	Tim3BaseInit();
-	Tim14BaseInit();
+	/*蜂鸣器*/
+	Tim15BaseInit();
+	/*马达驱动*/
 	Tim16BaseInit();
+	/*定时器*/
 	Tim17BaseInit();
-    /* Initialize SysTick Timer*/
+  /* Initialize SysTick Timer*/
 	SystickInit();
 	LED_Init();
 	Devpwm_SetDuty(SET_PWM3,100);
@@ -80,24 +83,21 @@ void FT32_GPIOA_Init(void)
 	  GPIO_InitTypeDef	GPIO_InitStructure;
 		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2 | GPIO_Pin_3;
-		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
-		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
-		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
-		
-		GPIO_Init(GPIOA, &GPIO_InitStructure);
-	
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_9 | GPIO_Pin_10;
+		//PA7-Motor_GATE  PA8-12V_EN PA9-GPIO_OUT 
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_NOPULL;
 		
 		GPIO_Init(GPIOA, &GPIO_InitStructure);
-		
-		DevGpio_SetOutPut(LED_RED,Bit_SET);
-		DevGpio_SetOutPut(LED_GREEN,Bit_SET);
+	
+		//PA10-GPIO_IN
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	
+		GPIO_Init(GPIOA,&GPIO_InitStructure);
 }
 
 void FT32_GPIOB_Init(void)
@@ -105,7 +105,7 @@ void FT32_GPIOB_Init(void)
 		GPIO_InitTypeDef	GPIO_InitStructure;
 		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_4;
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
 		GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
@@ -113,7 +113,7 @@ void FT32_GPIOB_Init(void)
 		
 		GPIO_Init(GPIOB, &GPIO_InitStructure);
 	
-		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9 | GPIO_Pin_8 | GPIO_Pin_0;
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 		
@@ -285,26 +285,26 @@ void Tim3BaseInit(void)
 	TIM_CtrlPWMOutputs(TIM3, ENABLE);    
 }
 
-//TIM14 Ch1，PB1
+//TIM15 Ch1，PA2
 //蜂鸣器驱动  4K
-void Tim14BaseInit(void)
+void Tim15BaseInit(void)
 {
 	
 	TIM_TimeBaseInitTypeDef TIM_BaseConfigStruct;
 	TIM_OCInitTypeDef TIM_OCInitStruct;
 	GPIO_InitTypeDef GPIO_InitStruct;
 	
-	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB,ENABLE);
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14,ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA,ENABLE);
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM15,ENABLE);
 	
-	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
+	GPIO_InitStruct.GPIO_Pin = GPIO_Pin_2;
 	GPIO_InitStruct.GPIO_Mode = GPIO_Mode_AF;
 	GPIO_InitStruct.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_InitStruct.GPIO_OType = GPIO_OType_PP;
 	GPIO_InitStruct.GPIO_PuPd = GPIO_PuPd_NOPULL;
 	
-	GPIO_Init(GPIOB, &GPIO_InitStruct);
-	GPIO_PinAFConfig(GPIOB, GPIO_PinSource1, GPIO_AF_0);
+	GPIO_Init(GPIOA, &GPIO_InitStruct);
+	GPIO_PinAFConfig(GPIOA, GPIO_PinSource2, GPIO_AF_0);
 
 	TIM_BaseConfigStruct.TIM_RepetitionCounter = 0;
 	TIM_BaseConfigStruct.TIM_ClockDivision  = TIM_CKD_DIV1;
@@ -312,7 +312,7 @@ void Tim14BaseInit(void)
 	TIM_BaseConfigStruct.TIM_Prescaler  = 72-1;
 	TIM_BaseConfigStruct.TIM_Period = 250-1;
 	
-	TIM_TimeBaseInit(TIM14,&TIM_BaseConfigStruct);
+	TIM_TimeBaseInit(TIM15,&TIM_BaseConfigStruct);
 	TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
 	TIM_OCInitStruct.TIM_OCNPolarity = TIM_OCNPolarity_High;
 	TIM_OCInitStruct.TIM_OCPolarity = TIM_OCPolarity_High;
@@ -322,15 +322,16 @@ void Tim14BaseInit(void)
 	TIM_OCInitStruct.TIM_OCNIdleState = TIM_OCNIdleState_Reset;
 	TIM_OCInitStruct.TIM_Pulse = 0;
 	
-	TIM_OC1Init(TIM14,&TIM_OCInitStruct);
+	TIM_OC1Init(TIM15,&TIM_OCInitStruct);
 	/* TIM14 counter enable */
-	TIM_Cmd(TIM14, ENABLE);
+	TIM_Cmd(TIM15, ENABLE);
 
 	/* TIM14 Main Output Enable */
-	TIM_CtrlPWMOutputs(TIM14, ENABLE);    
+	TIM_CtrlPWMOutputs(TIM15, ENABLE);    
 }
 //TIM16_CH1
 //PA6  电机驱动
+//235Hz为周期
 void Tim16BaseInit(void)
 {
 	GPIO_InitTypeDef GPIO_InitStruct;
@@ -375,7 +376,7 @@ void Tim16BaseInit(void)
 
 
 /*
- *    定时器17 作为时间累加
+ *    定时器17 作为时间累加  1ms为周期
  */
 void Tim17BaseInit(void)
 {
@@ -394,7 +395,7 @@ void Tim17BaseInit(void)
 
 	TIM_TimeBaseInit(TIM17, &TIM_TimeBaseStructure);
 
-	/* TIM16 counter enable */
+	/* TIM17 counter enable */
 	TIM_Cmd(TIM17, ENABLE);
 	/* Enable the TIM17 global Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = TIM17_IRQn;

@@ -8,7 +8,6 @@ extern uint16_t GREEN_Count;
 extern uint32_t Beep_Count;
 extern uint8_t WorkStart_Flg;
 extern uint8_t Beep_SatrtFlg;
-extern uint8_t Chrg_Flg;
 extern uint8_t Stdby_Flg;
 extern uint8_t Motor_Level;
 
@@ -41,7 +40,7 @@ void LED_Init(void)
 void LED_MainFunc(void)
 {
 	// 根据充电标志设置红色LED标志
-	if(Chrg_Flg == 0x01)// || (Battery_vol < 3200))
+	if(Battery_vol < 3200)
 	{
 		Led_RedFlg = 1;
 	}else{
@@ -177,27 +176,35 @@ void Motor_MainFunc(void)
 	}
 }
 
+/*用于超声相关输出的功能函数*/
 void Lipus_MainFunc(void)
 {
-
+	// 静态变量，用于存储上一次的工作启动标志状态
 	static uint8_t WorkStart_Flg_old = 0;
 
-	if((WorkStart_Flg_old != WorkStart_Flg) && (WorkStart_Flg == 1))
+	// 检查工作启动标志是否发生变化且当前标志为启动状态
+	if(WorkStart_Flg_old != WorkStart_Flg)
 	{
-		DevGpio_SetOutPut(V12_EN,Bit_SET);
-		DevGpio_SetOutPut(V45_EN,Bit_SET);
-		DevGpio_SetOutPut(WAVE_EN,Bit_SET);
-		DevGpio_SetOutPut(MOTOR_GATE,Bit_SET);
-		Devpwm_SetDuty(SET_PWM1,100);
-
-		WorkStart_Flg_old = WorkStart_Flg;
-	}else if((WorkStart_Flg_old != WorkStart_Flg) && (WorkStart_Flg == 0)){
-		DevGpio_SetOutPut(V12_EN,Bit_RESET);
-		DevGpio_SetOutPut(V45_EN,Bit_RESET);
-		DevGpio_SetOutPut(WAVE_EN,Bit_RESET);
-		DevGpio_SetOutPut(MOTOR_GATE,Bit_RESET);
-		Devpwm_SetDuty(SET_PWM1,0);
-
+		if(WorkStart_Flg == 1)
+		{
+			// 设置相关GPIO输出为高电平
+			DevGpio_SetOutPut(V12_EN,Bit_SET);
+			DevGpio_SetOutPut(V45_EN,Bit_SET);
+			DevGpio_SetOutPut(WAVE_EN,Bit_SET);
+			DevGpio_SetOutPut(MOTOR_GATE,Bit_SET);
+			// 设置PWM占空比为100%
+			Devpwm_SetDuty(SET_PWM1,100);
+		}else
+		{
+			// 设置相关GPIO输出为低电平
+			DevGpio_SetOutPut(V12_EN,Bit_RESET);
+			DevGpio_SetOutPut(V45_EN,Bit_RESET);
+			DevGpio_SetOutPut(WAVE_EN,Bit_RESET);
+			DevGpio_SetOutPut(MOTOR_GATE,Bit_RESET);
+			// 设置PWM占空比为0%
+			Devpwm_SetDuty(SET_PWM1,0);
+		}
+		// 更新上一次的工作启动标志状态
 		WorkStart_Flg_old = WorkStart_Flg;
 	}
 }

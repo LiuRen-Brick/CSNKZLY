@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Objects\CSNKZLY.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Objects\CSNKZLY.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Mon Jul 15 11:51:05 2024
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Jul 26 12:08:17 2024
 <BR><P>
 <H3>Maximum Stack Usage =        264 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -167,11 +167,11 @@ Global Symbols
 </UL>
 <P><STRONG><a name="[99]"></a>__aeabi_uidiv</STRONG> (Thumb, 0 bytes, Stack size 12 bytes, uidiv.o(.text), UNUSED)
 
-<P><STRONG><a name="[81]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text))
+<P><STRONG><a name="[82]"></a>__aeabi_uidivmod</STRONG> (Thumb, 44 bytes, Stack size 12 bytes, uidiv.o(.text))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = __aeabi_uidivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
-<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
+<BR>[Called By]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
 </UL>
 
 <P><STRONG><a name="[2a]"></a>__aeabi_fadd</STRONG> (Thumb, 162 bytes, Stack size 24 bytes, fadd.o(.text))
@@ -315,8 +315,9 @@ Global Symbols
 
 <P><STRONG><a name="[9a]"></a>__aeabi_cfcmpeq</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, cfcmple.o(.text), UNUSED)
 
-<P><STRONG><a name="[91]"></a>__aeabi_cfcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfcmple.o(.text))
+<P><STRONG><a name="[7a]"></a>__aeabi_cfcmple</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, cfcmple.o(.text))
 <BR><BR>[Called By]<UL><LI><a href="#[63]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;look1_iflf_binlxpw
+<LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_MainFunc
 </UL>
 
 <P><STRONG><a name="[31]"></a>__aeabi_llsl</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, llshl.o(.text))
@@ -576,7 +577,6 @@ Global Symbols
 <LI><a href="#[68]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Lipus_MainFunc
 <LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_MainFunc
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
-<LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOA_Init
 </UL>
 
 <P><STRONG><a name="[6d]"></a>Devpwm_SetDuty</STRONG> (Thumb, 18 bytes, Stack size 16 bytes, dev_pwm.o(i.Devpwm_SetDuty))
@@ -623,12 +623,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[77]"></a>FT32_GPIOA_Init</STRONG> (Thumb, 94 bytes, Stack size 16 bytes, main.o(i.FT32_GPIOA_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = FT32_GPIOA_Init &rArr; DevGpio_SetOutPut
+<P><STRONG><a name="[77]"></a>FT32_GPIOA_Init</STRONG> (Thumb, 72 bytes, Stack size 16 bytes, main.o(i.FT32_GPIOA_Init))
+<BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = FT32_GPIOA_Init &rArr; GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
-<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DevGpio_SetOutPut
 </UL>
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -647,7 +646,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOB_Init
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOA_Init
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_EXIT_Init
@@ -659,7 +658,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 </UL>
 
 <P><STRONG><a name="[6f]"></a>GPIO_ReadInputDataBit</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, ft32f0xx_gpio.o(i.GPIO_ReadInputDataBit))
@@ -667,7 +666,7 @@ Global Symbols
 <LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI4_15_IRQHandler
 </UL>
 
-<P><STRONG><a name="[66]"></a>GPIO_ReadMainFunc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, dev_gpio.o(i.GPIO_ReadMainFunc))
+<P><STRONG><a name="[66]"></a>GPIO_ReadMainFunc</STRONG> (Thumb, 18 bytes, Stack size 8 bytes, dev_gpio.o(i.GPIO_ReadMainFunc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = GPIO_ReadMainFunc &rArr; DevGpio_ReadInPut
 </UL>
 <BR>[Calls]<UL><LI><a href="#[6e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DevGpio_ReadInPut
@@ -675,7 +674,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;APP_Start
 </UL>
 
-<P><STRONG><a name="[7a]"></a>GPIO_ToggleBit</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, dev_gpio.o(i.GPIO_ToggleBit))
+<P><STRONG><a name="[7b]"></a>GPIO_ToggleBit</STRONG> (Thumb, 30 bytes, Stack size 8 bytes, dev_gpio.o(i.GPIO_ToggleBit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = GPIO_ToggleBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[67]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_MainFunc
@@ -696,32 +695,33 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[67]"></a>LED_MainFunc</STRONG> (Thumb, 146 bytes, Stack size 8 bytes, app.o(i.LED_MainFunc))
+<P><STRONG><a name="[67]"></a>LED_MainFunc</STRONG> (Thumb, 152 bytes, Stack size 8 bytes, app.o(i.LED_MainFunc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = LED_MainFunc &rArr; DevGpio_SetOutPut
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ToggleBit
+<BR>[Calls]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
+<LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_ToggleBit
 <LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DevGpio_SetOutPut
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;APP_Start
 </UL>
 
-<P><STRONG><a name="[68]"></a>Lipus_MainFunc</STRONG> (Thumb, 142 bytes, Stack size 8 bytes, app.o(i.Lipus_MainFunc))
+<P><STRONG><a name="[68]"></a>Lipus_MainFunc</STRONG> (Thumb, 114 bytes, Stack size 8 bytes, app.o(i.Lipus_MainFunc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = Lipus_MainFunc &rArr; DevGpio_SetOutPut
 </UL>
-<BR>[Calls]<UL><LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Devpwm_SetDuty
-<LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DevGpio_SetOutPut
+<BR>[Calls]<UL><LI><a href="#[43]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DevGpio_SetOutPut
+<LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Devpwm_SetDuty
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;APP_Start
 </UL>
 
-<P><STRONG><a name="[7b]"></a>Motor_LevelSet</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, app.o(i.Motor_LevelSet))
+<P><STRONG><a name="[7c]"></a>Motor_LevelSet</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, app.o(i.Motor_LevelSet))
 <BR><BR>[Called By]<UL><LI><a href="#[69]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_MainFunc
 </UL>
 
 <P><STRONG><a name="[69]"></a>Motor_MainFunc</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, app.o(i.Motor_MainFunc))
 <BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Motor_MainFunc &rArr; Devpwm_SetDuty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_LevelSet
+<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_LevelSet
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Devpwm_SetDuty
 </UL>
 <BR>[Called By]<UL><LI><a href="#[65]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;APP_Start
@@ -741,21 +741,21 @@ Global Symbols
 <P><STRONG><a name="[4f]"></a>RCC_AHBPeriphClockCmd</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, ft32f0xx_rcc.o(i.RCC_AHBPeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOB_Init
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOA_Init
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_EXIT_Init
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMA_Config
 </UL>
 
-<P><STRONG><a name="[87]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, ft32f0xx_rcc.o(i.RCC_APB1PeriphClockCmd))
+<P><STRONG><a name="[91]"></a>RCC_APB1PeriphClockCmd</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, ft32f0xx_rcc.o(i.RCC_APB1PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
 </UL>
 
 <P><STRONG><a name="[50]"></a>RCC_APB2PeriphClockCmd</STRONG> (Thumb, 28 bytes, Stack size 0 bytes, ft32f0xx_rcc.o(i.RCC_APB2PeriphClockCmd))
 <BR><BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim17BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_EXIT_Init
 <LI><a href="#[4d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_DMA_Config
 </UL>
@@ -776,31 +776,31 @@ Global Symbols
 <P><STRONG><a name="[5]"></a>SysTick_Handler</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, ft32f0xx_it.o(i.SysTick_Handler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = SysTick_Handler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimingDelay_Decrement
+<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TimingDelay_Decrement
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_ft32f030x8.o(RESET)
 </UL>
-<P><STRONG><a name="[80]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 154 bytes, Stack size 24 bytes, system_ft32f0xx.o(i.SystemCoreClockUpdate))
+<P><STRONG><a name="[81]"></a>SystemCoreClockUpdate</STRONG> (Thumb, 154 bytes, Stack size 24 bytes, system_ft32f0xx.o(i.SystemCoreClockUpdate))
 <BR><BR>[Stack]<UL><LI>Max Depth = 36<LI>Call Chain = SystemCoreClockUpdate &rArr; __aeabi_uidivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
-<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
+<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
 </UL>
 
 <P><STRONG><a name="[22]"></a>SystemInit</STRONG> (Thumb, 110 bytes, Stack size 8 bytes, system_ft32f0xx.o(i.SystemInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = SystemInit &rArr; SetSysClock &rArr; SetSysClockTo72
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
+<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_ft32f030x8.o(.text)
 </UL>
-<P><STRONG><a name="[82]"></a>SystickInit</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, bsp_systick.o(i.SystickInit))
+<P><STRONG><a name="[83]"></a>SystickInit</STRONG> (Thumb, 68 bytes, Stack size 8 bytes, bsp_systick.o(i.SystickInit))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = SystickInit &rArr; SystemCoreClockUpdate &rArr; __aeabi_uidivmod
 </UL>
-<BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetPriority
-<LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
+<BR>[Calls]<UL><LI><a href="#[81]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemCoreClockUpdate
+<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_SetPriority
+<LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_uidivmod
 </UL>
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -810,13 +810,13 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2f
 <LI><a href="#[61]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
-<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_GetITStatus
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 <LI><a href="#[4c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;AD9833_SetPara
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> startup_ft32f030x8.o(RESET)
 </UL>
-<P><STRONG><a name="[85]"></a>TIM_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, ft32f0xx_tim.o(i.TIM_ClearITPendingBit))
+<P><STRONG><a name="[86]"></a>TIM_ClearITPendingBit</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, ft32f0xx_tim.o(i.TIM_ClearITPendingBit))
 <BR><BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim17BaseInit
 <LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM17_IRQHandler
 </UL>
@@ -825,16 +825,16 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim17BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 </UL>
 
 <P><STRONG><a name="[8c]"></a>TIM_CtrlPWMOutputs</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, ft32f0xx_tim.o(i.TIM_CtrlPWMOutputs))
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 </UL>
 
-<P><STRONG><a name="[84]"></a>TIM_GetITStatus</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, ft32f0xx_tim.o(i.TIM_GetITStatus))
+<P><STRONG><a name="[85]"></a>TIM_GetITStatus</STRONG> (Thumb, 38 bytes, Stack size 12 bytes, ft32f0xx_tim.o(i.TIM_GetITStatus))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = TIM_GetITStatus
 </UL>
 <BR>[Called By]<UL><LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM17_IRQHandler
@@ -849,10 +849,10 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 </UL>
 
-<P><STRONG><a name="[7e]"></a>TIM_SetCompare1</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ft32f0xx_tim.o(i.TIM_SetCompare1))
+<P><STRONG><a name="[7f]"></a>TIM_SetCompare1</STRONG> (Thumb, 4 bytes, Stack size 0 bytes, ft32f0xx_tim.o(i.TIM_SetCompare1))
 <BR><BR>[Called By]<UL><LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_PWM3_Duty
 <LI><a href="#[25]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_PWM2_Duty
 <LI><a href="#[24]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_PWM1_Duty
@@ -862,17 +862,17 @@ Global Symbols
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim17BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 </UL>
 
-<P><STRONG><a name="[86]"></a>Tim14BaseInit</STRONG> (Thumb, 146 bytes, Stack size 48 bytes, main.o(i.Tim14BaseInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = Tim14BaseInit &rArr; GPIO_PinAFConfig
+<P><STRONG><a name="[87]"></a>Tim15BaseInit</STRONG> (Thumb, 150 bytes, Stack size 48 bytes, main.o(i.Tim15BaseInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 68<LI>Call Chain = Tim15BaseInit &rArr; GPIO_PinAFConfig
 </UL>
 <BR>[Calls]<UL><LI><a href="#[89]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_TimeBaseInit
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1Init
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
@@ -903,7 +903,7 @@ Global Symbols
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB2PeriphClockCmd
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;NVIC_Init
-<LI><a href="#[85]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
+<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_ClearITPendingBit
 </UL>
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
@@ -915,7 +915,7 @@ Global Symbols
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_OC1Init
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_CtrlPWMOutputs
 <LI><a href="#[8b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_Cmd
-<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
+<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_APB1PeriphClockCmd
 <LI><a href="#[4f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;RCC_AHBPeriphClockCmd
 <LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinAFConfig
 <LI><a href="#[51]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_Init
@@ -923,7 +923,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[21]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[7f]"></a>TimingDelay_Decrement</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, bsp_systick.o(i.TimingDelay_Decrement))
+<P><STRONG><a name="[80]"></a>TimingDelay_Decrement</STRONG> (Thumb, 20 bytes, Stack size 0 bytes, bsp_systick.o(i.TimingDelay_Decrement))
 <BR><BR>[Called By]<UL><LI><a href="#[5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SysTick_Handler
 </UL>
 
@@ -944,7 +944,7 @@ Global Symbols
 <LI><a href="#[62]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fmul
 <LI><a href="#[2f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fdiv
 <LI><a href="#[2a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_fadd
-<LI><a href="#[91]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
+<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cfcmple
 </UL>
 <BR>[Called By]<UL><LI><a href="#[5f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ADC_MainFunc
 </UL>
@@ -952,7 +952,7 @@ Global Symbols
 <P><STRONG><a name="[21]"></a>main</STRONG> (Thumb, 96 bytes, Stack size 16 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 248<LI>Call Chain = main &rArr; AD9833_SetPara &rArr; AD9833_SendFrequency &rArr; __aeabi_dmul &rArr; _double_epilogue &rArr; __aeabi_llsr
 </UL>
-<BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
+<BR>[Calls]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
 <LI><a href="#[79]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LED_Init
 <LI><a href="#[6d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Devpwm_SetDuty
 <LI><a href="#[92]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Delay
@@ -961,7 +961,7 @@ Global Symbols
 <LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim3BaseInit
 <LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim17BaseInit
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim16BaseInit
-<LI><a href="#[86]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim14BaseInit
+<LI><a href="#[87]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Tim15BaseInit
 <LI><a href="#[78]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOB_Init
 <LI><a href="#[77]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_GPIOA_Init
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;FT32_EXIT_Init
@@ -973,10 +973,10 @@ Global Symbols
 <H3>
 Local Symbols
 </H3>
-<P><STRONG><a name="[83]"></a>NVIC_SetPriority</STRONG> (Thumb, 110 bytes, Stack size 8 bytes, bsp_systick.o(i.NVIC_SetPriority))
+<P><STRONG><a name="[84]"></a>NVIC_SetPriority</STRONG> (Thumb, 110 bytes, Stack size 8 bytes, bsp_systick.o(i.NVIC_SetPriority))
 <BR><BR>[Stack]<UL><LI>Max Depth = 8<LI>Call Chain = NVIC_SetPriority
 </UL>
-<BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
+<BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystickInit
 </UL>
 
 <P><STRONG><a name="[6b]"></a>Beep_OFF</STRONG> (Thumb, 12 bytes, Stack size 8 bytes, app.o(i.Beep_OFF))
@@ -1070,7 +1070,7 @@ Local Symbols
 <P><STRONG><a name="[24]"></a>Set_PWM1_Duty</STRONG> (Thumb, 22 bytes, Stack size 16 bytes, dev_pwm.o(i.Set_PWM1_Duty))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = Set_PWM1_Duty
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
+<BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dev_pwm.o(.constdata)
 </UL>
@@ -1079,7 +1079,7 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
 <LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dev_pwm.o(.constdata)
@@ -1089,23 +1089,23 @@ Local Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[3b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
 <LI><a href="#[3e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2uiz
-<LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
+<LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM_SetCompare1
 <LI><a href="#[37]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dmul
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> dev_pwm.o(.constdata)
 </UL>
-<P><STRONG><a name="[7c]"></a>SetSysClock</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, system_ft32f0xx.o(i.SetSysClock))
+<P><STRONG><a name="[7d]"></a>SetSysClock</STRONG> (Thumb, 8 bytes, Stack size 8 bytes, system_ft32f0xx.o(i.SetSysClock))
 <BR><BR>[Stack]<UL><LI>Max Depth = 20<LI>Call Chain = SetSysClock &rArr; SetSysClockTo72
 </UL>
-<BR>[Calls]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockTo72
+<BR>[Calls]<UL><LI><a href="#[7e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClockTo72
 </UL>
 <BR>[Called By]<UL><LI><a href="#[22]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SystemInit
 </UL>
 
-<P><STRONG><a name="[7d]"></a>SetSysClockTo72</STRONG> (Thumb, 200 bytes, Stack size 12 bytes, system_ft32f0xx.o(i.SetSysClockTo72))
+<P><STRONG><a name="[7e]"></a>SetSysClockTo72</STRONG> (Thumb, 200 bytes, Stack size 12 bytes, system_ft32f0xx.o(i.SetSysClockTo72))
 <BR><BR>[Stack]<UL><LI>Max Depth = 12<LI>Call Chain = SetSysClockTo72
 </UL>
-<BR>[Called By]<UL><LI><a href="#[7c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
+<BR>[Called By]<UL><LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SetSysClock
 </UL>
 <P>
 <H3>
