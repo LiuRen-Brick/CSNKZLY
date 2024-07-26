@@ -9,7 +9,7 @@ const float INP_HWTemp1_R[160] =
 {
 	88.22f,	 88.62f,	89.01f,	 89.40f,	89.80f,  90.19f,  90.59f,  90.98f,  91.37f,  91.77f, //-30℃~-21℃
 	92.16f,  92.55f,  92.95f,  93.34f,  93.73f,  94.12f,  94.52f,  94.91f,  95.30f,	 95.69f, //-20℃~-11℃
-  96.09f,  96.48f,  96.87f,  97.26f,  97.65f,  98.04f,  98.44f,  98.83f,  99.22f,  99.61f, //-10℃~-1℃
+    96.09f,  96.48f,  96.87f,  97.26f,  97.65f,  98.04f,  98.44f,  98.83f,  99.22f,  99.61f, //-10℃~-1℃
 	100.00f, 100.39f, 100.78f, 101.17f, 101.56f, 101.95f, 102.34f, 102.73f, 103.12f, 103.51f,//0℃~9℃
 	103.90f, 104.29f, 104.68f, 105.07f, 105.46f, 105.85f, 106.24f, 106.63f, 107.02f, 107.40f,//10℃~19℃
 	107.79f, 108.18f, 108.57f, 108.96f, 109.35f, 109.73f, 110.12f, 110.51f, 110.90f, 111.28f,//20℃~29℃
@@ -31,7 +31,7 @@ const float OUT_HWTemp1_T[160] =
 	-30.0f,	-29.0f,	-28.0f,	-27.0f,	-26.0f,	-25.0f,	-24.0f,	-23.0f,	-22.0f,	-21.0f,
 	-20.0f,	-19.0f,	-18.0f,	-17.0f,	-16.0f,	-15.0f,	-14.0f, -13.0f,	-12.0f,	-11.0f,
 	-10.0f,	 -9.0f,	 -8.0f,  -7.0f,  -6.0f,  -5.0f,  -4.0f,  -3.0f,	 -2.0f,  -1.0f, 
-		0.0f,   1.0f,   2.0f,   3.0f,  	4.0f,  	5.0f,  	6.0f,  	7.0f,  	8.0f,  	9.0f,  
+	  0.0f,   1.0f,   2.0f,   3.0f,  	4.0f,  	5.0f,  	6.0f,  	7.0f,  	8.0f,  	9.0f,  
 	 10.0f,  11.0f,  12.0f,  13.0f,  14.0f,  15.0f,  16.0f,  17.0f,  18.0f,  19.0f,  
 	 20.0f,  21.0f,  22.0f,  23.0f,  24.0f,  25.0f,  26.0f,  27.0f,  28.0f,  29.0f, 
 	 30.0f,  31.0f,  32.0f,  33.0f,  34.0f,  35.0f,  36.0f,  37.0f,  38.0f,  39.0f, 
@@ -41,20 +41,22 @@ const float OUT_HWTemp1_T[160] =
 	 70.0f,  71.0f,  72.0f,  73.0f,  74.0f,  75.0f,  76.0f,  77.0f,  78.0f,  79.0f, 
 	 80.0f,  81.0f,  82.0f,  83.0f,	 84.0f,  85.0f,  86.0f,  87.0f,	 88.0f,  89.0f, 
 	 90.0f,  91.0f,  92.0f,  93.0f,  94.0f,  95.0f,  96.0f,  97.0f,	 98.0f,  99.0f, 
-	100.0f,101.0f,	102.0f,	103.0f,	104.0f,	105.0f, 106.0f, 107.0f, 108.0f,	109.0f,
-	110.0f,111.0f,	112.0f, 113.0f,	114.0f,	115.0f,	116.0f,	117.0f, 118.0f, 119.0f, 
-	120.0f,121.0f,	122.0f, 123.0f,	124.0f,	125.0f,	126.0f,	127.0f, 128.0f, 129.0f,
+	 100.0f,101.0f,	102.0f,	103.0f,	104.0f,	105.0f, 106.0f, 107.0f, 108.0f,	109.0f,
+	 110.0f,111.0f,	112.0f, 113.0f,	114.0f,	115.0f,	116.0f,	117.0f, 118.0f, 119.0f, 
+	 120.0f,121.0f,	122.0f, 123.0f,	124.0f,	125.0f,	126.0f,	127.0f, 128.0f, 129.0f,
 };
 
-/*!
-*@brief			look1_iflf_binlxpw 温度查表函数
-*@param			u0:ADC采样计算得到的电阻值
-*@param			bp0[]:电阻表
-*@param			table[]:温度表
-*@param			maxIndex:最大索引
-*@retval		补偿之后的温度值
-*@note
-*/
+/**
+ * @brief 使用二分查找法在查找表中进行插值查找
+ *
+ * 该函数使用二分查找法在查找表中查找给定的输入值 `u0`，并进行插值以获得更精确的结果。
+ *
+ * @param u0 输入值，用于在查找表中进行查找。
+ * @param bp0 查找表的基点数组，包含查找表的各个基点值。
+ * @param table 查找表数组，包含与基点对应的值。
+ * @param maxIndex 查找表的最大索引值，表示查找表的大小减一。
+ * @return 返回通过插值计算得到的查找结果。
+ */
 float look1_iflf_binlxpw(float u0, const float bp0[], const float table[], uint32_t maxIndex)
 {
   float frac;
@@ -115,26 +117,26 @@ void ADC_MainFunc(void)
 	//判断DMA传输是否完成，准备下一次ADC采样
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC1) == SET)
 	{
-			TempDualVal = (DMA_DualConvertedValue[0] & 0xFFFF);
-			VolDualVal = ((DMA_DualConvertedValue[0] >> 16) & 0xFFFF);
-			//电池电压计算公式
-		  Battery_vol = VolDualVal * 3300 / 4096;
-	  	Battery_vol = Battery_vol * 2.9437;
-		  //温度计算公式
-			Vol = TempDualVal * 4140 /4096;
-			Temp_V = Vol / 11.0f / 1000;
-			/* 电压 --- 电阻计算公式 (AD623)
-					Vin = 3000 * Rpt100 / (2000 + Rpt100)
-								-3000 * 90(温度为0对应的电阻值) / 2090
-					Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
-					R = +
-		  */
+		TempDualVal = (DMA_DualConvertedValue[0] & 0xFFFF);
+		VolDualVal = ((DMA_DualConvertedValue[0] >> 16) & 0xFFFF);
+		//电池电压计算公式
+		Battery_vol = VolDualVal * 3300 / 4096;
+		Battery_vol = Battery_vol * 2.9437;
+		//温度计算公式
+		Vol = TempDualVal * 4140 /4096;
+		Temp_V = Vol / 11.0f / 1000;
+		/* 电压 --- 电阻计算公式 (AD623)
+			Vin = 3000 * Rpt100 / (2000 + Rpt100)
+						-3000 * 90(温度为0对应的电阻值) / 2090
+			Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
+			R = +
+		*/
 			
-		  Temp_R = (Temp_V * 500.0f + 228.813560) / (3.0f  - 0.457627  - Temp_V);
-		  //查表，根据电阻值查询对应温度
-			Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 145);
-			Temp_T = Temp_T;
-			DMA_ClearFlag(DMA1_FLAG_TC1);
+		Temp_R = (Temp_V * 500.0f + 228.813560) / (3.0f  - 0.457627  - Temp_V);
+		//查表，根据电阻值查询对应温度
+		Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 145);
+		Temp_T = Temp_T;
+		DMA_ClearFlag(DMA1_FLAG_TC1);
 	}
 }
 

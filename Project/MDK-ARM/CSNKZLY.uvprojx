@@ -462,6 +462,16 @@
               <FileType>5</FileType>
               <FilePath>..\..\Devices\dev_pwm.h</FilePath>
             </File>
+            <File>
+              <FileName>dev_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\dev_flash.h</FilePath>
+            </File>
+            <File>
+              <FileName>dev_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\dev_flash.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

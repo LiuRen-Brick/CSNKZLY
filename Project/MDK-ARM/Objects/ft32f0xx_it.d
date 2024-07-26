@@ -35,3 +35,4 @@
 .\objects\ft32f0xx_it.o: ..\..\Devices\dev_gpio.h
 .\objects\ft32f0xx_it.o: ..\User\Include\main.h
 .\objects\ft32f0xx_it.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\ft32f0xx_it.o: ..\..\Devices\dev_ad9877.h

@@ -28,6 +28,13 @@ static void AD9833_SDATA_Set(uint8_t ch,BitAction BitVal)
 	DevGpio_SetOutPut(A_SDATA, BitVal);
 }
 
+/**
+ * @brief 向 AD9833 发送数据
+ * 该函数通过指定的通道向 AD9833 数字频率合成器发送数据。发送的数据是一个 32 位的值。
+ * @param ch 目标通道，用于指定数据发送的通道。
+ * @param txdata 要发送的 32 位数据。
+ * @return 该函数没有返回值。
+ */
 static void AD9833_SendData(uint8_t ch,uint32_t txdata)
 {
 	uint8_t tag_i = 0;
@@ -52,6 +59,7 @@ static void AD9833_SendData(uint8_t ch,uint32_t txdata)
 
 	AD9833_FSYNC_Set(ch,Bit_SET);
 }
+
 
 static void AD9833_SendPhase(uint8_t ch,uint16_t reg, uint16_t val)
 {
@@ -114,6 +122,15 @@ void AD9833_SetPara(uint8_t ch,uint32_t Freq_SFR,double Freq,uint32_t Phase_SFR,
 	AD9833_SendWave(ch,WaveMode,Fsel,Psel);
 }
 
+/**
+ * @brief 初始化 AD9833 的 I/O 引脚
+ *
+ * 该函数初始化指定通道的 AD9833 数字频率合成器的 I/O 引脚。
+ *
+ * @param ch 目标通道，用于指定要初始化的 AD9833 设备。
+ *
+ * @return 该函数没有返回值。
+ */
 void AD9833_InitIo(uint8_t ch)
 {
 	AD9833_FSYNC_Set(ch,Bit_SET);

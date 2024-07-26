@@ -21,7 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "ft32f0xx_it.h"
 #include "dev_gpio.h"
-
+#include "dev_ad9877.h"
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -106,9 +106,14 @@ void SysTick_Handler(void)
   *********************************************************************************
 */
 //1ms
+uint8_t Motor_Level = 2;
+uint8_t Freq_Offset = 0;
 void TIM17_IRQHandler(void)
 {
 		static uint8_t Status = 0;
+	  static uint8_t Status_2 = 0;
+	  uint32_t Freq = 0;
+
     if (TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
     {       
 				GREEN_Count++;
@@ -122,12 +127,27 @@ void TIM17_IRQHandler(void)
 							WorkStart_Flg = WorkStart_Flg ^ 0x01;
 							KEY1_Count = 0;
 						}
-					
 				}else
 				{
 						Status = 0;
 						KEY1_Count = 0;
-				}       
+				}     
+//////////////////////////////////////////////////////////////////////////////////////
+				if(KEY2_Flg == 1)
+				{
+						KEY2_Count++;
+					  if((KEY2_Count > 3) && (Status_2 == 0))
+						{
+								Status_2 = 1;
+							  Freq_Offset++;
+							  Freq = 1960000 + Freq_Offset * 10000;
+							  AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,(float)Freq,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
+						}
+				}else
+				{
+						Status_2 = 0;
+					  KEY2_Count = 0;
+				}
 				
 				if(Beep_Flg == 1)
 				{
@@ -145,7 +165,7 @@ void TIM17_IRQHandler(void)
   */
 void EXTI4_15_IRQHandler(void)
 {
-	
+	//static uint8_t KEY2_Flg_Old = 0;
 	if(EXTI_GetITStatus(EXTI_Line5) != RESET)
 	{
 			KEY1_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5) ^ 0x01;
@@ -155,6 +175,19 @@ void EXTI4_15_IRQHandler(void)
 	}else if(EXTI_GetITStatus(EXTI_Line4) != RESET)
 	{
 		  KEY2_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
+		  //if(KEY2_Flg != KEY2_Flg_Old)
+			//{
+			//	  if(KEY2_Flg_Old == 1)
+			//		{
+						//Motor_Level++;
+						//if(Motor_Level > 2)
+						//{
+						//	Motor_Level = 0;
+						//}
+						
+			//		}
+				//	KEY2_Flg_Old = KEY2_Flg;
+		  //}
 		  Beep_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
 		  EXTI_ClearITPendingBit(EXTI_Line4);
 	}else
