@@ -31,6 +31,9 @@
 
 #define ADC1_DR_Address		0x40012400 + 0X40
 
+#define POWER_ON	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_SET);
+#define POWER_OFF	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_RESET);
+
 void FT32_GPIOA_Init(void);
 void FT32_GPIOB_Init(void);
 void FT32_EXIT_Init(void);

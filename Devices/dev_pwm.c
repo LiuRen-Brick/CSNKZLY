@@ -28,7 +28,7 @@ static void Set_PWM2_Duty(uint16_t duty)
 {
 	uint32_t compare = 0;
 	compare = duty * 2.5;
-	TIM_SetCompare1(TIM14,compare);
+	TIM_SetCompare1(TIM15,compare);
 }
 
 //…Ë÷√Tim16-pwm1’ºø’±»

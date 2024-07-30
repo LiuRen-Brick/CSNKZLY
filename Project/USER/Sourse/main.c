@@ -24,6 +24,7 @@
 #include "dev_ad9877.h"
 #include "dev_gpio.h"
 #include "dev_pwm.h"
+#include "dev_flash.h"
 #include "App.h"
 
 //test
@@ -35,7 +36,10 @@ uint8_t Bat_Charge;
 uint8_t duty = 0;
 uint8_t Monitoring = 0;
 uint8_t Val = 0;
+uint8_t Power_Flg = 0;
 void test1(void* pvParam);
+
+extern ULTRA_CONFIG Ultra_Config;
 
 uint32_t DMA_DualConvertedValue[1] = {0};
 __IO uint32_t lsi_freq = 40000;
@@ -55,6 +59,7 @@ int main(void)
 	FT32_GPIOB_Init();
 	FT32_EXIT_Init();
 	ADC_DMA_Config();
+	/*超声脉冲驱动占空比*/
 	Tim3BaseInit();
 	/*蜂鸣器*/
 	Tim15BaseInit();
@@ -62,11 +67,13 @@ int main(void)
 	Tim16BaseInit();
 	/*定时器*/
 	Tim17BaseInit();
-  /* Initialize SysTick Timer*/
+  /* 系统滴答时钟初始化 */
 	SystickInit();
+	Power_Flg = DevGpio_ReadInPut(SWITCH) ^ 0x01;
+	POWER_ON;
 	LED_Init();
+
 	Devpwm_SetDuty(SET_PWM3,100);
-	
 	AD9833_InitIo(AD9877_Ch_A);
 	AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,1960000,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
 	
@@ -105,6 +112,9 @@ void FT32_GPIOB_Init(void)
 		GPIO_InitTypeDef	GPIO_InitStructure;
 		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	
+		GPIO_WriteBit(GPIOB,GPIO_Pin_8,Bit_SET);
+		GPIO_WriteBit(GPIOB,GPIO_Pin_9,Bit_SET);
+	
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_1 | GPIO_Pin_3 | GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7 | GPIO_Pin_8 | GPIO_Pin_9;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_OUT;
 		GPIO_InitStructure.GPIO_OType = GPIO_OType_PP;
@@ -118,6 +128,7 @@ void FT32_GPIOB_Init(void)
 		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
 		
 		GPIO_Init(GPIOB, &GPIO_InitStructure);
+	
 }
 
 void FT32_EXIT_Init(void)

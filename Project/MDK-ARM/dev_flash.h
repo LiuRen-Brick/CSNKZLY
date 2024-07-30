@@ -3,7 +3,13 @@
 
 #include "main.h"
 
-FLASH_Status Flash_Write(uint32_t addr,uint16_t* buff,uint8_t len);
-void Flash_Read(uint32_t addr,uint16_t *buff,uint8_t len);
+typedef union
+{
+		uint32_t store_data;
+		uint8_t store_buff[4];
+}ULTRA_CONFIG;
+
+FLASH_Status Flash_Write(uint32_t addr,uint32_t* buff,uint8_t len);
+void Flash_Read(uint32_t addr,uint32_t *buff,uint8_t len);
 
 #endif

@@ -17,8 +17,8 @@ uint8_t Led_GreenFlg = 0;
 void APP_Start(void)
 {
 	ADC_MainFunc();
-	GPIO_ReadMainFunc();
-	LED_MainFunc();
+	Power_MainFunc();
+	//LED_MainFunc();
 	Lipus_MainFunc();
 	Motor_MainFunc();
 	Beep_MainFunc();
@@ -209,4 +209,9 @@ void Lipus_MainFunc(void)
 	}
 }
 
+void Power_MainFunc(void)
+{
+		static uint8_t power_old_flg = 0;
+		uint8_t power_flg = 0;
+}
 

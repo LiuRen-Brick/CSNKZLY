@@ -110,5 +110,5 @@ void GPIO_ToggleBit(uint8_t ch)
 
 void GPIO_ReadMainFunc(void)
 {
-	PowerFlg = DevGpio_ReadInPut(POWER) ^ 0x01;
+	PowerFlg = DevGpio_ReadInPut(SWITCH) ^ 0x01;
 }

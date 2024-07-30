@@ -27,13 +27,9 @@ Project File Date:  07/12/2024
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'D:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'Target 1'
-compiling dev_ad9877.c...
-compiling dev_gpio.c...
-compiling ft32f0xx_it.c...
-compiling App.c...
 compiling main.c...
 linking...
-Program Size: Code=8292 RO-data=1516 RW-data=188 ZI-data=1028  
+Program Size: Code=8108 RO-data=1516 RW-data=192 ZI-data=1024  
 FromELF: creating hex file...
 ".\Objects\CSNKZLY.axf" - 0 Error(s), 0 Warning(s).
 
@@ -87,11 +83,11 @@ Package Vendor: FMD
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_adc.c
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:COMMON:1.0.1
-      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_it.h
       Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_conf.h
+      Source file:   Drivers\FT32F0xx_Driver\templates\Src\main.c
+      Include file:  Drivers\FT32F0xx_Driver\templates\Inc\ft32f0xx_it.h
       Source file:   Drivers\FT32F0xx_Driver\templates\Src\ft32f0xx_it.c
       Include file:  Drivers\FT32F0xx_Driver\templates\Inc\main.h
-      Source file:   Drivers\FT32F0xx_Driver\templates\Src\main.c
 
    * Component: FMD.StdDriverOne::Device:FT32Driver:CRC:1.0.1
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_crc.c
@@ -151,9 +147,9 @@ Package Vendor: FMD
       Source file:   Drivers\FT32F0xx_Driver\Src\ft32f0xx_wwdg.c
 
    * Component: FMD.StdDriverOne::Device:Startup:1.0.1
-      Source file:   Drivers\CMSIS\FT32F0xx\source\system_ft32f0xx.c
-      Source file:   Drivers\CMSIS\FT32F0xx\source\arm\startup_ft32f030x8.s
       Include file:  Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h
+      Source file:   Drivers\CMSIS\FT32F0xx\source\arm\startup_ft32f030x8.s
+      Source file:   Drivers\CMSIS\FT32F0xx\source\system_ft32f0xx.c
 Build Time Elapsed:  00:00:01
 </pre>
 </body>

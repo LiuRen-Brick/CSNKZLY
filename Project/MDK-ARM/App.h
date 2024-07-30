@@ -12,4 +12,6 @@ void Lipus_MainFunc(void);
 void Get_ChargeSta(void);
 uint8_t Motor_LevelSet(void);
 
+void Power_MainFunc(void);
+
 #endif
