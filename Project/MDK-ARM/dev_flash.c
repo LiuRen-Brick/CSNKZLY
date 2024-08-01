@@ -1,9 +1,5 @@
 #include "dev_flash.h"
 
-#define FLASHSTORE 0x08000000
-
-ULTRA_CONFIG Ultra_Config;
-
 /*
  * 函数: Flash_Write
  * 功能: 将数据写入指定地址的Flash存储器
@@ -18,7 +14,7 @@ ULTRA_CONFIG Ultra_Config;
 FLASH_Status Flash_Write(uint32_t addr, uint32_t* buff, uint8_t len)
 {
   uint8_t tag_i = 0;
-	uint8_t writedata = 0;
+	uint32_t writedata = 0;
   uint32_t writeaddr = 0;
 	FLASH_Status status = FLASH_BUSY;
   FLASH_Unlock();
@@ -32,8 +28,8 @@ FLASH_Status Flash_Write(uint32_t addr, uint32_t* buff, uint8_t len)
    
   for(tag_i = 0; tag_i < (len/2 + 1); tag_i++)
   {
-    writedata = *(buff+tag_i);
-     status = FLASH_ProgramWord(writeaddr, writedata);
+		writedata = *(&buff+tag_i);
+		status = FLASH_ProgramWord(writeaddr, writedata);
     if(status == FLASH_COMPLETE)
     {
       writeaddr += 4;

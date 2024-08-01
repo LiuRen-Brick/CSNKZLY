@@ -26,13 +26,17 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+extern uint8_t Power_Flg;
+
 uint32_t KEY1_Count = 0;
 uint32_t Beep_Count = 0;
 uint32_t KEY2_Count = 0;
+uint32_t POWER_Count = 0;
 
 uint8_t KEY1_Flg = 0;
 uint8_t KEY2_Flg = 0;
 uint8_t Beep_Flg = 0;
+uint8_t PowerOn_Flg = 0;
 uint8_t Beep_SatrtFlg = 0;
 
 uint8_t LED_RED_Flg = 0;
@@ -112,6 +116,7 @@ void TIM17_IRQHandler(void)
 {
 		static uint8_t Status = 0;
 	  static uint8_t Status_2 = 0;
+		static uint8_t SetFlg = 0;
 	  uint32_t Freq = 0;
 
     if (TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
@@ -153,7 +158,26 @@ void TIM17_IRQHandler(void)
 				{
 						Beep_SatrtFlg = 1;
 				}
-				
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+				PowerOn_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_10) ^ 0x01;
+				if(PowerOn_Flg == 1)
+				{
+					 POWER_Count++;
+					if((POWER_Count > 2000) && (Power_Flg == 1) && (SetFlg == 0))
+					{
+							Power_Flg = 0;
+							SetFlg = 1;
+					}else if((POWER_Count > 2000) && (Power_Flg == 0) && (SetFlg == 0))
+					{
+							Power_Flg = 1;
+							SetFlg = 1;
+					}else
+					{}
+				}else
+				{
+						SetFlg = 0;
+						POWER_Count = 0;
+				}
         TIM_ClearITPendingBit(TIM17, TIM_IT_Update);
     }
 }
@@ -175,19 +199,6 @@ void EXTI4_15_IRQHandler(void)
 	}else if(EXTI_GetITStatus(EXTI_Line4) != RESET)
 	{
 		  KEY2_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
-		  //if(KEY2_Flg != KEY2_Flg_Old)
-			//{
-			//	  if(KEY2_Flg_Old == 1)
-			//		{
-						//Motor_Level++;
-						//if(Motor_Level > 2)
-						//{
-						//	Motor_Level = 0;
-						//}
-						
-			//		}
-				//	KEY2_Flg_Old = KEY2_Flg;
-		  //}
 		  Beep_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
 		  EXTI_ClearITPendingBit(EXTI_Line4);
 	}else

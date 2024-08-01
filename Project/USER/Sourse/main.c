@@ -36,10 +36,7 @@ uint8_t Bat_Charge;
 uint8_t duty = 0;
 uint8_t Monitoring = 0;
 uint8_t Val = 0;
-uint8_t Power_Flg = 0;
-void test1(void* pvParam);
-
-extern ULTRA_CONFIG Ultra_Config;
+uint8_t Power_Flg = 1;
 
 uint32_t DMA_DualConvertedValue[1] = {0};
 __IO uint32_t lsi_freq = 40000;
@@ -69,10 +66,12 @@ int main(void)
 	Tim17BaseInit();
   /* 系统滴答时钟初始化 */
 	SystickInit();
-	Power_Flg = DevGpio_ReadInPut(SWITCH) ^ 0x01;
-	POWER_ON;
-	LED_Init();
+	
+	/*长按开机*/
+	while(Power_Flg);
+	POWER_ON
 
+	LED_Init();
 	Devpwm_SetDuty(SET_PWM3,100);
 	AD9833_InitIo(AD9877_Ch_A);
 	AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,1960000,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);

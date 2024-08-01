@@ -1,5 +1,5 @@
 Dependencies for Project 'CSNKZLY', Target 'Target 1': (DO NOT MODIFY !)
-F (..\USER\Sourse\ft32f0xx_it.c)(0x66949CA8)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\ft32f0xx_it.o --omf_browse .\objects\ft32f0xx_it.crf --depend .\objects\ft32f0xx_it.d)
+F (..\USER\Sourse\ft32f0xx_it.c)(0x66A9FDB6)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\ft32f0xx_it.o --omf_browse .\objects\ft32f0xx_it.crf --depend .\objects\ft32f0xx_it.d)
 I (..\User\Include\ft32f0xx_it.h)(0x6142E614)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h)(0x646C5F70)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h)(0x646C5F70)
@@ -36,7 +36,7 @@ I (..\..\Devices\dev_gpio.h)(0x66A32130)
 I (..\User\Include\main.h)(0x66A3256F)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599ECD2E)
 I (..\..\Devices\dev_ad9877.h)(0x661F71B2)
-F (..\USER\Sourse\main.c)(0x66A8BB59)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+F (..\USER\Sourse\main.c)(0x66AAF268)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (..\User\Include\main.h)(0x66A3256F)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h)(0x646C5F70)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h)(0x646C5F70)
@@ -75,7 +75,7 @@ I (..\..\Devices\dev_adc.h)(0x6685FE92)
 I (..\..\Devices\dev_ad9877.h)(0x661F71B2)
 I (..\..\Devices\dev_gpio.h)(0x66A32130)
 I (..\..\Devices\dev_pwm.h)(0x662A09A9)
-I (..\MDK-ARM\dev_flash.h)(0x66A8AEF6)
+I (..\MDK-ARM\dev_flash.h)(0x66A9B7A0)
 I (..\MDK-ARM\App.h)(0x66A3513F)
 F (..\USER\Sourse\bsp_systick.c)(0x6673D769)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\bsp_systick.o --omf_browse .\objects\bsp_systick.crf --depend .\objects\bsp_systick.d)
 I (..\User\Include\bsp_systick.h)(0x622AF5E4)
@@ -109,7 +109,7 @@ I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_tim.
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_usart.h)(0x646C5F70)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_wwdg.h)(0x646C5F70)
 I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
-F (.\App.c)(0x66A8B730)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
+F (.\App.c)(0x66AB02E8)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\app.o --omf_browse .\objects\app.crf --depend .\objects\app.d)
 I (App.h)(0x66A3513F)
 I (..\User\Include\main.h)(0x66A3256F)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h)(0x646C5F70)
@@ -147,6 +147,7 @@ I (..\User\Include\bsp_systick.h)(0x622AF5E4)
 I (..\..\Devices\dev_adc.h)(0x6685FE92)
 I (..\..\Devices\dev_gpio.h)(0x66A32130)
 I (..\..\Devices\dev_pwm.h)(0x662A09A9)
+I (dev_flash.h)(0x66A9B7A0)
 F (.\App.h)(0x66A3513F)()
 F (..\..\Devices\dev_ad9877.c)(0x6690FF3F)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\dev_ad9877.o --omf_browse .\objects\dev_ad9877.crf --depend .\objects\dev_ad9877.d)
 I (..\..\Devices\dev_ad9877.h)(0x661F71B2)
@@ -185,7 +186,7 @@ I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599ECD2E)
 I (..\User\Include\bsp_systick.h)(0x622AF5E4)
 I (..\..\Devices\dev_gpio.h)(0x66A32130)
 F (..\..\Devices\dev_ad9877.h)(0x661F71B2)()
-F (..\..\Devices\dev_adc.c)(0x6694862E)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\dev_adc.o --omf_browse .\objects\dev_adc.crf --depend .\objects\dev_adc.d)
+F (..\..\Devices\dev_adc.c)(0x66AB2808)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\dev_adc.o --omf_browse .\objects\dev_adc.crf --depend .\objects\dev_adc.d)
 I (..\User\Include\main.h)(0x66A3256F)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h)(0x646C5F70)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h)(0x646C5F70)
@@ -295,9 +296,9 @@ I (D:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x599ECD2C)
 I (D:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599ECD2E)
 I (..\User\Include\bsp_systick.h)(0x622AF5E4)
 F (..\..\Devices\dev_pwm.h)(0x662A09A9)()
-F (.\dev_flash.h)(0x66A8AEF6)()
-F (.\dev_flash.c)(0x66A8AEF6)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\dev_flash.o --omf_browse .\objects\dev_flash.crf --depend .\objects\dev_flash.d)
-I (dev_flash.h)(0x66A8AEF6)
+F (.\dev_flash.h)(0x66A9B7A0)()
+F (.\dev_flash.c)(0x66A9CE8E)(--c99 --gnu -c --cpu Cortex-M0 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\User\Include -I ..\..\Devices -I ..\MDK-ARM-I.\RTE\Device\FT32F030G8BUx-I.\RTE\_Target_1-ID:\Arm\Packs\ARM\CMSIS\5.5.1\CMSIS\Core\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include-ID:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc-D__UVISION_VERSION="527" -D_RTE_ -DFT32F030x8-o .\objects\dev_flash.o --omf_browse .\objects\dev_flash.crf --depend .\objects\dev_flash.d)
+I (dev_flash.h)(0x66A9B7A0)
 I (..\User\Include\main.h)(0x66A3256F)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h)(0x646C5F70)
 I (D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h)(0x646C5F70)

@@ -2,6 +2,7 @@
 #include "dev_adc.h"
 #include "dev_gpio.h"
 #include "dev_pwm.h"
+#include "dev_flash.h"
 
 extern float Battery_vol;
 extern uint16_t GREEN_Count;
@@ -10,6 +11,8 @@ extern uint8_t WorkStart_Flg;
 extern uint8_t Beep_SatrtFlg;
 extern uint8_t Stdby_Flg;
 extern uint8_t Motor_Level;
+extern uint8_t Power_Flg;
+ULTRA_CONFIG Ultra_Config;
 
 uint8_t Led_RedFlg = 0;
 uint8_t Led_GreenFlg = 0;
@@ -18,10 +21,10 @@ void APP_Start(void)
 {
 	ADC_MainFunc();
 	Power_MainFunc();
-	//LED_MainFunc();
+	LED_MainFunc();
 	Lipus_MainFunc();
 	Motor_MainFunc();
-	Beep_MainFunc();
+	Beep_MainFunc(); 
 }
 
 // 初始化LED灯
@@ -88,7 +91,7 @@ void LED_MainFunc(void)
 // 使蜂鸣器开启的函数
 static void Beep_ON(void)
 {
-	Devpwm_SetDuty(SET_PWM2,50); // 设置PWM2的占空比为50%
+	Devpwm_SetDuty(SET_PWM2,15); // 设置PWM2的占空比为50%
 }
 
 // 关闭蜂鸣器
@@ -183,7 +186,7 @@ void Lipus_MainFunc(void)
 	static uint8_t WorkStart_Flg_old = 0;
 
 	// 检查工作启动标志是否发生变化且当前标志为启动状态
-	if(WorkStart_Flg_old != WorkStart_Flg)
+	//if(WorkStart_Flg_old != WorkStart_Flg)
 	{
 		if(WorkStart_Flg == 1)
 		{
@@ -211,7 +214,22 @@ void Lipus_MainFunc(void)
 
 void Power_MainFunc(void)
 {
-		static uint8_t power_old_flg = 0;
-		uint8_t power_flg = 0;
+		if(Power_Flg == 1)
+		{
+				POWER_OFF;
+				DevGpio_SetOutPut(LED_RED,Bit_SET); // 设置红色LED灯为关闭状态
+				DevGpio_SetOutPut(LED_GREEN,Bit_SET); // 设置绿色LED灯为关闭状态
+				// 设置相关GPIO输出为低电平
+				DevGpio_SetOutPut(V12_EN,Bit_RESET);
+				DevGpio_SetOutPut(V45_EN,Bit_RESET);
+				DevGpio_SetOutPut(WAVE_EN,Bit_RESET);
+				DevGpio_SetOutPut(MOTOR_GATE,Bit_RESET);
+				// 设置PWM占空比为0%
+				Devpwm_SetDuty(SET_PWM1,0);
+				TIM_Cmd(TIM3, DISABLE);
+				TIM_Cmd(TIM15, DISABLE);
+				TIM_Cmd(TIM16, DISABLE);
+			
+				while(Power_Flg);
+		}
 }
-

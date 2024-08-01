@@ -3,6 +3,8 @@
 
 #include "main.h"
 
+#define FLASHSTORE 0x0800F000
+
 typedef union
 {
 		uint32_t store_data;

@@ -122,17 +122,16 @@ void ADC_MainFunc(void)
 		//电池电压计算公式
 		Battery_vol = VolDualVal * 3300 / 4096;
 		Battery_vol = Battery_vol * 2.9437;
-		//温度计算公式
-		Vol = TempDualVal * 4140 /4096;
-		Temp_V = Vol / 11.0f / 1000;
+		//温度电压计算公式
+		Vol = TempDualVal * 3.3 /4096;
+		//Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
+		Temp_V = Vol / 11.0f;
 		/* 电压 --- 电阻计算公式 (AD623)
 			Vin = 3000 * Rpt100 / (2000 + Rpt100)
 						-3000 * 90(温度为0对应的电阻值) / 2090
-			Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
-			R = +
 		*/
 			
-		Temp_R = (Temp_V * 500.0f + 228.813560) / (3.0f  - 0.457627  - Temp_V);
+		Temp_R = (Temp_V * 510 + 229.5) / (3.0f  - 0.45  - Temp_V);
 		//查表，根据电阻值查询对应温度
 		Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 145);
 		Temp_T = Temp_T;

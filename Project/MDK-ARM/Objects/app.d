@@ -37,3 +37,4 @@
 .\objects\app.o: ..\..\Devices\dev_adc.h
 .\objects\app.o: ..\..\Devices\dev_gpio.h
 .\objects\app.o: ..\..\Devices\dev_pwm.h
+.\objects\app.o: dev_flash.h
