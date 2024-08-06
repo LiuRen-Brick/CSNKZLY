@@ -32,8 +32,8 @@
 .\objects\app.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_usart.h
 .\objects\app.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\FT32F0xx_Driver\Inc\ft32f0xx_wwdg.h
 .\objects\app.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
-.\objects\app.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\app.o: ..\User\Include\bsp_systick.h
+.\objects\app.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
 .\objects\app.o: ..\..\Devices\dev_adc.h
 .\objects\app.o: ..\..\Devices\dev_gpio.h
 .\objects\app.o: ..\..\Devices\dev_pwm.h

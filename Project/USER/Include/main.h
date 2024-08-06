@@ -25,8 +25,10 @@
 #include "ft32f0xx_tim.h"
 #include "ft32f0xx_gpio.h"
 #include "ft32f0xx_flash.h"
-#include <stdbool.h>
 #include "bsp_systick.h"
+#include <stdbool.h>
+#include <stdint.h>
+
 
 
 #define ADC1_DR_Address		0x40012400 + 0X40

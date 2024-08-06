@@ -1,5 +1,6 @@
 #include "dev_flash.h"
 
+union DATA_STORE Data_Store;
 /*
  * 函数: Flash_Write
  * 功能: 将数据写入指定地址的Flash存储器

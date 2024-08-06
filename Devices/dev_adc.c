@@ -127,8 +127,8 @@ void ADC_MainFunc(void)
 		//Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
 		Temp_V = Vol / 11.0f;
 		/* 电压 --- 电阻计算公式 (AD623)
-			Vin = 3000 * Rpt100 / (2000 + Rpt100)
-						-3000 * 90(温度为0对应的电阻值) / 2090
+			Vin = 3V*(Rpt / (510Ω + Rpt)) - 3V*(90Ω / (510Ω + 90Ω))
+				
 		*/
 			
 		Temp_R = (Temp_V * 510 + 229.5) / (3.0f  - 0.45  - Temp_V);

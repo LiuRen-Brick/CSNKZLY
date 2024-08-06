@@ -5,11 +5,16 @@
 
 #define FLASHSTORE 0x0800F000
 
-typedef union
+union DATA_STORE
 {
-		uint32_t store_data;
-		uint8_t store_buff[4];
-}ULTRA_CONFIG;
+		uint32_t data;
+		struct 
+		{
+			uint8_t Frequency;
+			uint8_t Vibration;
+			uint8_t reserved[2];
+		}Ultra_Config;
+};
 
 FLASH_Status Flash_Write(uint32_t addr,uint32_t* buff,uint8_t len);
 void Flash_Read(uint32_t addr,uint32_t *buff,uint8_t len);

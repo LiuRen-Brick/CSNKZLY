@@ -9,6 +9,7 @@
 ".\objects\dev_gpio.o"
 ".\objects\dev_pwm.o"
 ".\objects\dev_flash.o"
+".\objects\dev_pid.o"
 ".\objects\ft32f0xx_adc.o"
 ".\objects\ft32f0xx_crc.o"
 ".\objects\ft32f0xx_crs.o"

@@ -72,6 +72,7 @@ int main(void)
 	POWER_ON
 
 	LED_Init();
+	//UltraParam_Init();
 	Devpwm_SetDuty(SET_PWM3,100);
 	AD9833_InitIo(AD9877_Ch_A);
 	AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,1960000,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);

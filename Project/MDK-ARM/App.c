@@ -12,10 +12,13 @@ extern uint8_t Beep_SatrtFlg;
 extern uint8_t Stdby_Flg;
 extern uint8_t Motor_Level;
 extern uint8_t Power_Flg;
-ULTRA_CONFIG Ultra_Config;
+extern union DATA_STORE Data_Store;
 
+uint32_t Frequnecy_Param = 0;
+uint32_t Vibration_Param = 0;
 uint8_t Led_RedFlg = 0;
 uint8_t Led_GreenFlg = 0;
+
 
 void APP_Start(void)
 {
@@ -233,3 +236,13 @@ void Power_MainFunc(void)
 				while(Power_Flg);
 		}
 }
+
+/*
+void UltraParam_Init(void)
+{
+		Flash_Read(FLASHSTORE,&Data_Store.data,1);
+		
+		Frequnecy_Param = 950 + Data_Store.Ultra_Config.Frequency;
+		Vibration_Param = 417 * Data_Store.Ultra_Config.Vibration;
+}
+*/
