@@ -25,6 +25,7 @@
 #include "dev_gpio.h"
 #include "dev_pwm.h"
 #include "dev_flash.h"
+#include "dev_pid.h"
 #include "App.h"
 
 //test
@@ -37,12 +38,26 @@ uint8_t duty = 0;
 uint8_t Monitoring = 0;
 uint8_t Val = 0;
 uint8_t Power_Flg = 1;
+uint16_t TaskCounter = 0;
+
+//////////////////////////////////////////////////////////////////////////
+uint8_t Task5msFlg = FALSE;
+uint8_t Task10msFlg = FALSE;
+uint8_t Task20msFlg = FALSE;
+uint8_t Task30msFlg = FALSE;
+uint8_t Task50msFlg = FALSE;
+uint8_t Task80msFlg = FALSE;
+uint8_t Task100msFlg = FALSE;
+uint8_t Task200msFlg = FALSE;
+uint8_t Task500msFlg = FALSE;
+uint8_t Task1000msFlg = FALSE;
 
 uint32_t DMA_DualConvertedValue[1] = {0};
 __IO uint32_t lsi_freq = 40000;
 
 extern uint8_t KEY1_Flg;
 extern uint8_t KEY2_Flg;
+extern PIDController Pid_Contronl;
 
 /**
   * @brief  Main program.
@@ -63,24 +78,25 @@ int main(void)
 	/*马达驱动*/
 	Tim16BaseInit();
 	/*定时器*/
+	
 	Tim17BaseInit();
+	Tim14BaseInit();
+
   /* 系统滴答时钟初始化 */
 	SystickInit();
-	
 	/*长按开机*/
 	while(Power_Flg);
 	POWER_ON
 
+	IWDG_Config();
 	LED_Init();
-	//UltraParam_Init();
-	Devpwm_SetDuty(SET_PWM3,100);
-	AD9833_InitIo(AD9877_Ch_A);
-	AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,1960000,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
-	
+	UltraParam_Init();
+	PIDController_Init(&Pid_Contronl,0.8,0.03,0.02,38,10.0,100.0);
+		
 	while (1)
 	{
 			APP_Start();
-			Delay(200);
+			//Delay(50);
 	}
 }
 
@@ -334,10 +350,10 @@ void Tim15BaseInit(void)
 	TIM_OCInitStruct.TIM_Pulse = 0;
 	
 	TIM_OC1Init(TIM15,&TIM_OCInitStruct);
-	/* TIM14 counter enable */
+	/* TIM15 counter enable */
 	TIM_Cmd(TIM15, ENABLE);
 
-	/* TIM14 Main Output Enable */
+	/* TIM15 Main Output Enable */
 	TIM_CtrlPWMOutputs(TIM15, ENABLE);    
 }
 //TIM16_CH1
@@ -393,8 +409,6 @@ void Tim17BaseInit(void)
 {
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
-	/* Compute CCR1 value to generate a duty cycle at 50% for channel 1 and 1N */
-	/* TIM1 clock enable */
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM17, ENABLE);
 	/* Time Base configuration */
@@ -403,22 +417,52 @@ void Tim17BaseInit(void)
 	TIM_TimeBaseStructure.TIM_Period = 1000-1;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
-
 	TIM_TimeBaseInit(TIM17, &TIM_TimeBaseStructure);
+	
+	TIM_ITConfig(TIM17,TIM_IT_Update,ENABLE );
 
-	/* TIM17 counter enable */
-	TIM_Cmd(TIM17, ENABLE);
 	/* Enable the TIM17 global Interrupt */
 	NVIC_InitStructure.NVIC_IRQChannel = TIM17_IRQn;
 	NVIC_InitStructure.NVIC_IRQChannelPriority = 0;
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-
-	TIM_ITConfig(TIM17, TIM_IT_Update, ENABLE);
-	TIM_ClearITPendingBit(TIM17, TIM_IT_Update);
+	
+	/* TIM17 counter enable */
+	TIM_Cmd(TIM17, ENABLE);
 }
 
+/*
+ *    定时器6 作为时间累加  1ms为周期
+ */
+#if 1
+void Tim14BaseInit(void)
+{
+	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	/* Compute CCR1 value to generate a duty cycle at 50% for channel 1 and 1N */
+	/* TIM1 clock enable */
 
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
+	/* Time Base configuration */
+	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+	TIM_TimeBaseStructure.TIM_Period = 5000-1;
+	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
+	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
+	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);
+
+	TIM_ITConfig(TIM14, TIM_IT_Update, ENABLE);
+	
+	/* Enable the TIM17 global Interrupt */
+	NVIC_InitStructure.NVIC_IRQChannel = TIM14_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+
+	/* TIM17 counter enable */
+	TIM_Cmd(TIM14, ENABLE);
+}
+#endif
 /**
   * @brief  独立看门狗配置程序.
   * @param  None
@@ -446,6 +490,56 @@ void IWDG_Config(void)
 
   /* 使能看门狗功能 */
   IWDG_Enable();	
+}
+
+//5ms
+void Task_Count(void)
+{
+	  static uint16_t TaskCounter = 0;
+		TaskCounter++;
+	
+		Task5msFlg = TRUE;
+		
+		if (TaskCounter % 2 == 0)
+		{
+			Task10msFlg = TRUE;
+		}
+		if (TaskCounter % 4 == 3)
+		{
+			Task20msFlg = TRUE;
+		}
+		if (TaskCounter % 6 == 3)
+		{
+			Task30msFlg = TRUE;
+		}
+		if (TaskCounter % 10 == 7)
+		{
+			Task50msFlg = TRUE;
+		}
+		if (TaskCounter % 16 == 13)
+		{
+			Task80msFlg = TRUE;
+		}
+		if (TaskCounter % 20 == 17)
+		{
+			Task100msFlg = TRUE;
+		}
+		if (TaskCounter % 40 == 23)
+		{
+			Task200msFlg = TRUE;
+		}
+		if (TaskCounter % 100 == 43)
+		{
+			Task500msFlg = TRUE;
+		}
+		if (TaskCounter % 200 == 59)
+		{
+			Task1000msFlg = TRUE;
+		}
+		if (TaskCounter >= 400)
+		{
+			TaskCounter = 0;
+		}
 }
 
 /************************ (C) COPYRIGHT Fremont Micro Devices *****END OF FILE****/

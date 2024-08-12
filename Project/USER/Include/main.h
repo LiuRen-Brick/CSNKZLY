@@ -29,12 +29,24 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
+#define FALSE 0
+#define TRUE	1
 
 #define ADC1_DR_Address		0x40012400 + 0X40
 
 #define POWER_ON	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_SET);
 #define POWER_OFF	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_RESET);
+
+extern uint8_t Task5msFlg;
+extern uint8_t Task10msFlg;
+extern uint8_t Task20msFlg;
+extern uint8_t Task30msFlg;
+extern uint8_t Task50msFlg;
+extern uint8_t Task80msFlg;
+extern uint8_t Task100msFlg;
+extern uint8_t Task200msFlg;
+extern uint8_t Task500msFlg;
+extern uint8_t Task1000msFlg;
 
 void FT32_GPIOA_Init(void);
 void FT32_GPIOB_Init(void);
@@ -44,7 +56,10 @@ void Tim3BaseInit(void);
 void Tim15BaseInit(void);
 void Tim16BaseInit(void);
 void Tim17BaseInit(void);
+void Tim14BaseInit(void);
 void IWDG_Config(void);
+
+void Task_Count(void);
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/

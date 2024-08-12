@@ -23,10 +23,13 @@
 #include "dev_gpio.h"
 #include "dev_ad9877.h"
 /* Private typedef -----------------------------------------------------------*/
+#include "dev_flash.h"
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
+
 /* Private variables ---------------------------------------------------------*/
 extern uint8_t Power_Flg;
+extern union DATA_STORE Data_Store;
 
 uint32_t KEY1_Count = 0;
 uint32_t Beep_Count = 0;
@@ -45,6 +48,14 @@ uint16_t RED_Count = 0;
 uint16_t GREEN_Count = 0;
 
 uint8_t WorkStart_Flg = 0;
+
+uint8_t Motor_Level = 2;
+uint8_t Freq_Offset = 0;
+
+uint16_t CycleTime = 0;
+
+uint8_t SetFreq_Flg = 0;
+uint8_t Clear_Flg = 0;
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -97,11 +108,20 @@ void PendSV_Handler(void)
   * @param  None
   * @retval None
   */
+
 void SysTick_Handler(void)
 {
    TimingDelay_Decrement();
 }
 
+void TIM14_IRQHandler(void)
+{
+	if (TIM_GetITStatus(TIM14, TIM_IT_Update) != RESET)
+	{
+			Task_Count();
+		  TIM_ClearITPendingBit(TIM14, TIM_IT_Update);
+	}
+}
 /**********************************************************************************
   * @brief  TIM17_IRQHandler program.
   * @param  None
@@ -109,18 +129,17 @@ void SysTick_Handler(void)
   * @retval None
   *********************************************************************************
 */
+
 //1ms
-uint8_t Motor_Level = 2;
-uint8_t Freq_Offset = 0;
 void TIM17_IRQHandler(void)
 {
 		static uint8_t Status = 0;
-	  static uint8_t Status_2 = 0;
 		static uint8_t SetFlg = 0;
-	  uint32_t Freq = 0;
 
     if (TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
     {       
+			  CycleTime++;
+			  ///////////////////////////////////
 				GREEN_Count++;
 				Beep_Count++;
 				if(KEY1_Flg == 1)
@@ -141,45 +160,43 @@ void TIM17_IRQHandler(void)
 				if(KEY2_Flg == 1)
 				{
 						KEY2_Count++;
-					  if((KEY2_Count > 3) && (Status_2 == 0))
+					  if((KEY2_Count > 3) && (SetFreq_Flg == 0))
 						{
-								Status_2 = 1;
-							  Freq_Offset++;
-							  Freq = 1960000 + Freq_Offset * 10000;
-							  AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,(float)Freq,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
+								SetFreq_Flg = 1;
+						}else if((KEY2_Count > 1500) && (Clear_Flg == 0))
+						{
+								Clear_Flg = 1;
 						}
 				}else
 				{
-						Status_2 = 0;
+						SetFreq_Flg = 0;
+					  Clear_Flg = 0;
 					  KEY2_Count = 0;
 				}
 				
-				if(Beep_Flg == 1)
-				{
-						Beep_SatrtFlg = 1;
-				}
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 				PowerOn_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_10) ^ 0x01;
 				if(PowerOn_Flg == 1)
 				{
-					 POWER_Count++;
-					if((POWER_Count > 2000) && (Power_Flg == 1) && (SetFlg == 0))
-					{
-							Power_Flg = 0;
-							SetFlg = 1;
-					}else if((POWER_Count > 2000) && (Power_Flg == 0) && (SetFlg == 0))
-					{
-							Power_Flg = 1;
-							SetFlg = 1;
-					}else
-					{}
+						POWER_Count++;
+						if((POWER_Count > 2000) && (Power_Flg == 1) && (SetFlg == 0))
+						{
+								Power_Flg = 0;
+								SetFlg = 1;
+						}else if((POWER_Count > 2000) && (Power_Flg == 0) && (SetFlg == 0))
+						{
+								Power_Flg = 1;
+								SetFlg = 1;
+						}else
+						{
+						}
 				}else
 				{
 						SetFlg = 0;
 						POWER_Count = 0;
 				}
-        TIM_ClearITPendingBit(TIM17, TIM_IT_Update);
-    }
+				TIM_ClearITPendingBit(TIM17, TIM_IT_Update);
+		}
 }
 
 /**
@@ -189,24 +206,34 @@ void TIM17_IRQHandler(void)
   */
 void EXTI4_15_IRQHandler(void)
 {
-	//static uint8_t KEY2_Flg_Old = 0;
+	static uint8_t Beep_Flg_old = 0;
 	if(EXTI_GetITStatus(EXTI_Line5) != RESET)
 	{
 			KEY1_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5) ^ 0x01;
 		  Beep_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5) ^ 0x01;
+		
+			if((Beep_Flg == 1) && (Beep_Flg != Beep_Flg_old))
+			{
+					Beep_SatrtFlg = 1;
+			}
+			Beep_Flg_old = Beep_Flg;
 			 /* Clear the EXTI line 11 pending bit */
 			EXTI_ClearITPendingBit(EXTI_Line5);
 	}else if(EXTI_GetITStatus(EXTI_Line4) != RESET)
 	{
 		  KEY2_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
 		  Beep_Flg = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_4) ^ 0x01;
+			if((Beep_Flg == 1) && (Beep_Flg != Beep_Flg_old))
+			{
+					Beep_SatrtFlg = 1;
+			}
+			Beep_Flg_old = Beep_Flg;
 		  EXTI_ClearITPendingBit(EXTI_Line4);
 	}else
 	{
 	}
 	
 }
-
 /******************************************************************************/
 /*                 FT32F0xx Peripherals Interrupt Handlers                   */
 /*  Add here the Interrupt Handler for the used peripheral(s) (PPP), for the  */

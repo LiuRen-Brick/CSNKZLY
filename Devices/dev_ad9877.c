@@ -96,6 +96,11 @@ static void AD9833_SendFrequency(uint8_t ch,unsigned short reg, double fout)
 	AD9833_SendData(ch,frequence_MSB);
 }
 
+/*! 
+ * @brief: 
+ *
+ *
+ */
 void AD9833_SetPara(uint8_t ch,uint32_t Freq_SFR,double Freq,uint32_t Phase_SFR,uint32_t Phase,uint32_t WaveMode)
 {
 	unsigned int Fsel,Psel;

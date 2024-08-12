@@ -1,5 +1,5 @@
-.\objects\dev_flash.o: dev_flash.c
-.\objects\dev_flash.o: dev_flash.h
+.\objects\dev_flash.o: ..\..\Devices\dev_flash.c
+.\objects\dev_flash.o: ..\..\Devices\dev_flash.h
 .\objects\dev_flash.o: ..\User\Include\main.h
 .\objects\dev_flash.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h
 .\objects\dev_flash.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h
@@ -34,3 +34,5 @@
 .\objects\dev_flash.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\dev_flash.o: ..\User\Include\bsp_systick.h
 .\objects\dev_flash.o: D:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\objects\dev_flash.o: ..\..\Devices\dev_ad9877.h
+.\objects\dev_flash.o: ..\..\Devices\dev_pwm.h

@@ -38,5 +38,6 @@
 .\objects\main.o: ..\..\Devices\dev_ad9877.h
 .\objects\main.o: ..\..\Devices\dev_gpio.h
 .\objects\main.o: ..\..\Devices\dev_pwm.h
-.\objects\main.o: ..\MDK-ARM\dev_flash.h
-.\objects\main.o: ..\MDK-ARM\App.h
+.\objects\main.o: ..\..\Devices\dev_flash.h
+.\objects\main.o: ..\..\Devices\dev_pid.h
+.\objects\main.o: ..\..\Devices\App.h

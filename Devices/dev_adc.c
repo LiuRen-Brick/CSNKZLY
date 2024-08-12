@@ -1,15 +1,21 @@
 #include "main.h"
 #include "dev_adc.h"
 
+static float ADCSample_Filter(float buff[],uint8_t len);
+
+float SampleTemp_Buff[16];
+float SampleVol_Buff[16] = {3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500};
+
 extern uint32_t DMA_DualConvertedValue[2];
 float Battery_vol = 0;
+float Ultra_Temp = 0;
 
 //PT100  电阻表
 const float INP_HWTemp1_R[160] = 
 {
 	88.22f,	 88.62f,	89.01f,	 89.40f,	89.80f,  90.19f,  90.59f,  90.98f,  91.37f,  91.77f, //-30℃~-21℃
 	92.16f,  92.55f,  92.95f,  93.34f,  93.73f,  94.12f,  94.52f,  94.91f,  95.30f,	 95.69f, //-20℃~-11℃
-    96.09f,  96.48f,  96.87f,  97.26f,  97.65f,  98.04f,  98.44f,  98.83f,  99.22f,  99.61f, //-10℃~-1℃
+  96.09f,  96.48f,  96.87f,  97.26f,  97.65f,  98.04f,  98.44f,  98.83f,  99.22f,  99.61f, //-10℃~-1℃
 	100.00f, 100.39f, 100.78f, 101.17f, 101.56f, 101.95f, 102.34f, 102.73f, 103.12f, 103.51f,//0℃~9℃
 	103.90f, 104.29f, 104.68f, 105.07f, 105.46f, 105.85f, 106.24f, 106.63f, 107.02f, 107.40f,//10℃~19℃
 	107.79f, 108.18f, 108.57f, 108.96f, 109.35f, 109.73f, 110.12f, 110.51f, 110.90f, 111.28f,//20℃~29℃
@@ -110,6 +116,8 @@ void ADC_MainFunc(void)
 {
 	uint16_t TempDualVal = 0;
 	uint16_t VolDualVal = 0;
+	float Bat_vol = 0;
+	static uint8_t SampleCount = 0;
 	static float Vol = 0.0f;
 	static float Temp_V = 0.0f;
 	static float Temp_R = 0.0f;
@@ -120,26 +128,58 @@ void ADC_MainFunc(void)
 		TempDualVal = (DMA_DualConvertedValue[0] & 0xFFFF);
 		VolDualVal = ((DMA_DualConvertedValue[0] >> 16) & 0xFFFF);
 		//电池电压计算公式
-		Battery_vol = VolDualVal * 3300 / 4096;
-		Battery_vol = Battery_vol * 2.9437;
+		Bat_vol = VolDualVal * 3300 / 4096;
+		SampleVol_Buff[SampleCount] = Bat_vol * 2.9437;
 		//温度电压计算公式
 		Vol = TempDualVal * 3.3 /4096;
 		//Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))
 		Temp_V = Vol / 11.0f;
 		/* 电压 --- 电阻计算公式 (AD623)
 			Vin = 3V*(Rpt / (510Ω + Rpt)) - 3V*(90Ω / (510Ω + 90Ω))
-				
 		*/
 			
 		Temp_R = (Temp_V * 510 + 229.5) / (3.0f  - 0.45  - Temp_V);
 		//查表，根据电阻值查询对应温度
-		Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 145);
-		Temp_T = Temp_T;
+		Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 159);
+		SampleTemp_Buff[SampleCount] = Temp_T;
+		Ultra_Temp = ADCSample_Filter(SampleTemp_Buff,15) - 1.5;
+		Battery_vol = ADCSample_Filter(SampleVol_Buff,15);
+		SampleCount++;
+		if(SampleCount > 15)
+		{
+				SampleCount = 0;
+		}
 		DMA_ClearFlag(DMA1_FLAG_TC1);
 	}
 }
 
+static float ADCSample_Filter(float buff[],uint8_t len)
+{
+		if (len < 3) {
+        // 如果数组元素少于3个，无法去掉最大最小值后计算平均值
+        return 0.0;
+    }
 
+    float max = buff[0];
+    float min = buff[0];
+    float sum = 0;
 
+    // 找到最大值、最小值并计算总和
+    for (int i = 0; i < len; i++) {
+        if (buff[i] > max) {
+            max = buff[i];
+        }
+        if (buff[i] < min) {
+            min = buff[i];
+        }
+        sum += buff[i];
+    }
 
+    // 从总和中减去最大值和最小值
+    sum -= max;
+    sum -= min;
 
+    // 计算剩余元素的平均值
+    double average = (double)sum / (len - 2);
+    return average;
+}

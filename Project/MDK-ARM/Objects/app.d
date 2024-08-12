@@ -1,5 +1,5 @@
-.\objects\app.o: App.c
-.\objects\app.o: App.h
+.\objects\app.o: ..\..\Devices\App.c
+.\objects\app.o: ..\..\Devices\App.h
 .\objects\app.o: ..\User\Include\main.h
 .\objects\app.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h
 .\objects\app.o: D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h
@@ -37,4 +37,5 @@
 .\objects\app.o: ..\..\Devices\dev_adc.h
 .\objects\app.o: ..\..\Devices\dev_gpio.h
 .\objects\app.o: ..\..\Devices\dev_pwm.h
-.\objects\app.o: dev_flash.h
+.\objects\app.o: ..\..\Devices\dev_flash.h
+.\objects\app.o: ..\..\Devices\dev_pid.h
