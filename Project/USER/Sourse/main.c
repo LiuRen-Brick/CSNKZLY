@@ -78,7 +78,6 @@ int main(void)
 	/*马达驱动*/
 	Tim16BaseInit();
 	/*定时器*/
-	
 	Tim17BaseInit();
 	Tim14BaseInit();
 
@@ -88,7 +87,8 @@ int main(void)
 	while(Power_Flg);
 	POWER_ON
 
-	IWDG_Config();
+  /*看门狗*/
+	//IWDG_Config();
 	LED_Init();
 	UltraParam_Init();
 	PIDController_Init(&Pid_Contronl,0.8,0.03,0.02,38,10.0,100.0);
@@ -412,9 +412,9 @@ void Tim17BaseInit(void)
 
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_TIM17, ENABLE);
 	/* Time Base configuration */
-	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+	TIM_TimeBaseStructure.TIM_Prescaler = 71;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Period = 1000-1;
+	TIM_TimeBaseStructure.TIM_Period = 1000;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM17, &TIM_TimeBaseStructure);
