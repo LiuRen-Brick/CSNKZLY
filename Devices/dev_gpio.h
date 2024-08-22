@@ -5,23 +5,23 @@
 
 typedef enum
 {
-	LED_RED,
-	LED_GREEN,
-	MOTOR_GATE,
-	V45_EN,
-	V12_EN,
-	WAVE_EN,
-	A_SCLK,
-	A_SDATA,
-	A_FSYNC,
-	POWER,
-	SWITCH,
+	LED_RED,				//红色LED
+	LED_GREEN, 			//绿色LED
+	MOTOR_GATE, 		//马达开关
+	V45_EN,					//45V 开关
+	V12_EN,					//12V 开关
+	WAVE_EN,				//声波 开关
+	A_SCLK,					//AD9833 时钟线
+	A_SDATA,				//AD9833 数据线
+	A_FSYNC,        //AD9833 使能线
+	POWER,					//电源开关
+	SWITCH,					//
+	MONIT,
 	DevGpioMaxChannlLab,
 }DEVGpioChannlLabType;
 
 void DevGpio_SetOutPut(uint8_t ch,BitAction BitVal);
 void GPIO_ToggleBit(uint8_t ch);
-void GPIO_ReadMainFunc(void);
 uint8_t DevGpio_ReadInPut(uint8_t ch);
 
 #endif

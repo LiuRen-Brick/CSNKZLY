@@ -15,7 +15,7 @@ extern uint8_t WorkStart_Flg;
 extern uint8_t Beep_SatrtFlg;
 extern uint8_t Stdby_Flg;
 extern uint8_t Motor_Level;
-extern uint8_t Power_Flg;
+extern uint8_t PowerOff_Flg;
 extern uint16_t CycleTime;
 extern double setpoint;		// 设定温度
 extern double current_temp; // 当前温度
@@ -27,7 +27,12 @@ uint32_t Frequnecy_Param = 0;
 uint32_t Vibration_Param = 0;
 uint8_t Led_RedFlg = 0;
 uint8_t Led_GreenFlg = 0;
-
+/*!
+ *@brief:	 APP_Start
+ *@param:	 none
+ *@retval: none
+ *@none:	 功能处理函数，根据模块需求进行分类
+ */
 void APP_Start(void)
 {
 	if (Task10msFlg)
@@ -43,12 +48,13 @@ void APP_Start(void)
 
 	if (Task50msFlg)
 	{
-		Motor_MainFunc();
+		//Motor_MainFunc();
 		Task50msFlg = FALSE;
 	}
 
 	if (Task100msFlg)
 	{
+		StandyDete();
 		UltraParam_Set();
 		Task100msFlg = FALSE;
 	}
@@ -71,6 +77,9 @@ void APP_Start(void)
 		LED_MainFunc();
 		Task1000msFlg = FALSE;
 	}
+	
+	
+
 	Lipus_MainFunc();
 	Power_MainFunc();
 }
@@ -90,12 +99,19 @@ void LED_Init(void)
  */
 void LED_MainFunc(void)
 {
+	uint8_t alarmflg = 0;
+	
+	//alarmflg = ProbTest_MainFunc();
 	// 根据充电标志设置红色LED标志
-	if (Battery_vol < 3200)
+	if(alarmflg == 0x01)
+	{
+		Led_RedFlg = 2;
+		WorkStart_Flg = 0;
+	}else if(Battery_vol < 3200)
 	{
 		Led_RedFlg = 1;
-	}
-	else
+		WorkStart_Flg = 0;
+	}else
 	{
 		Led_RedFlg = 0;
 	}
@@ -104,38 +120,36 @@ void LED_MainFunc(void)
 	if (WorkStart_Flg == 0x01)
 	{
 		Led_GreenFlg = 0x02;
-	}
-	else if (Led_RedFlg == 0x01)
-	{
-		Led_GreenFlg = 0;
-	}
-	else
+	}else
 	{
 		Led_GreenFlg = 0x01;
 	}
 
 	// 根据红色LED标志设置红色LED输出
-	if (Led_RedFlg == 0x01)
+	if(Led_RedFlg == 0x02)
 	{
-		DevGpio_SetOutPut(LED_RED, Bit_RESET);
-	}
-	else
+			GPIO_ToggleBit(LED_RED);
+		  DevGpio_SetOutPut(LED_GREEN, Bit_SET);
+	}else	if (Led_RedFlg == 0x01)
 	{
-		DevGpio_SetOutPut(LED_RED, Bit_SET);
-	}
-
-	// 根据绿色LED标志设置绿色LED输出
-	if (Led_GreenFlg == 0x02)
+			DevGpio_SetOutPut(LED_RED, Bit_RESET);
+			DevGpio_SetOutPut(LED_GREEN, Bit_SET);
+	}else
 	{
-		GPIO_ToggleBit(LED_GREEN);
-	}
-	else if (Led_GreenFlg == 0x01)
-	{
-		DevGpio_SetOutPut(LED_GREEN, Bit_RESET);
-	}
-	else
-	{
-		DevGpio_SetOutPut(LED_GREEN, Bit_SET);
+			DevGpio_SetOutPut(LED_RED, Bit_SET);
+			// 根据绿色LED标志设置绿色LED输出
+			if (Led_GreenFlg == 0x02)
+			{
+				GPIO_ToggleBit(LED_GREEN);
+			}
+			else if (Led_GreenFlg == 0x01)
+			{
+				DevGpio_SetOutPut(LED_GREEN, Bit_RESET);
+			}
+			else
+			{
+				DevGpio_SetOutPut(LED_GREEN, Bit_SET);
+			}
 	}
 }
 
@@ -244,7 +258,7 @@ void Beep_MainFunc(uint8_t beep)
  * 函数名称: Motor_LevelSet
  * 功能描述: 根据Motor_Level的值设置电机的震动强度。
  * 参数: 无
- * 返回值: uint8_t - 设置的占空比值
+ * 返回值: 设置的占空比值
  */
 static uint8_t Motor_LevelSet(uint8_t level)
 {
@@ -275,12 +289,11 @@ static uint8_t Motor_LevelSet(uint8_t level)
 	return duty;
 }
 
-/*
- * 函数名称: Motor_MainFunc
- * 参    数: 无
- * 返 回 值: 无
- * 功能描述: 震动调整功能，通过按键调整电机震动等级，
- *           目前只有三个等级，可在超声工作时修改;
+/*!
+ *@brief : Motor_MainFunc
+ *@param : 无
+ *@retval: 无
+ *@none  : 
  */
 void Motor_MainFunc(void)
 {
@@ -298,10 +311,10 @@ void Motor_MainFunc(void)
 }
 
 /*!
- *@breif:  超声驱动函数
- *@param:  none
- *@retval: none
- *@note:   控制脉冲信号的发出，加入PID温度调控功能
+ *@breif :  Lipus_MainFunc
+ *@param :  none
+ *@retval:  none
+ *@note  :  控制脉冲信号的发出，加入PID温度调控功能
  */
 /*用于超声相关输出的功能函数*/
 void Lipus_MainFunc(void)
@@ -330,7 +343,7 @@ void Lipus_MainFunc(void)
 			DevGpio_SetOutPut(V12_EN, Bit_SET);
 			DevGpio_SetOutPut(V45_EN, Bit_SET);
 			DevGpio_SetOutPut(WAVE_EN, Bit_SET);
-			DevGpio_SetOutPut(MOTOR_GATE, Bit_SET);
+			//DevGpio_SetOutPut(MOTOR_GATE, Bit_SET);
 			// 设置超声脉冲占空比为66%
 			current_temp = Ultra_Temp;
 			CycleDuty = (uint8_t)PIDController_Update(&Pid_Contronl, current_temp, 1);
@@ -385,7 +398,7 @@ void Lipus_MainFunc(void)
 			DevGpio_SetOutPut(V12_EN, Bit_RESET);
 			DevGpio_SetOutPut(V45_EN, Bit_RESET);
 			DevGpio_SetOutPut(WAVE_EN, Bit_RESET);
-			DevGpio_SetOutPut(MOTOR_GATE, Bit_RESET);
+			//DevGpio_SetOutPut(MOTOR_GATE, Bit_RESET);
 			// 设置PWM占空比为0%
 			Devpwm_SetDuty(SET_PWM1, 0);
 			CycleTime = 0;
@@ -395,16 +408,16 @@ void Lipus_MainFunc(void)
 	}
 }
 
-/*
- * 函数名称: Power_MainFunc
- * 功能描述: 常按关机功能，常按2S以上拉低PA9电压从而实现关机功能，常按期间其余所有功能失效
- * 参    数: 无
- * 返 回 值: 无
+/*!
+ *@biref : Power_MainFunc
+ *@param : none
+ *@retval: none
+ *@note  : 常按关机功能，常按2S以上拉低PA9电压从而实现关机功能，常按期间其余所有功能失效
  */
 
 void Power_MainFunc(void)
 {
-	if (Power_Flg == 1)
+	if (PowerOff_Flg == 1)
 	{
 		POWER_OFF;
 		DevGpio_SetOutPut(LED_RED, Bit_SET);   // 设置红色LED灯为关闭状态
@@ -420,7 +433,48 @@ void Power_MainFunc(void)
 		TIM_Cmd(TIM15, DISABLE);
 		TIM_Cmd(TIM16, DISABLE);
 
-		while (Power_Flg)
-			;
+		while (PowerOff_Flg)
+			POWER_OFF;;
 	}
 }
+
+/*!
+ *@brief : ProbTest_MainFunc
+ *@param : none
+ *@retval: none
+ *@none  : 检测探头是否接入
+ */
+uint8_t ProbTest_MainFunc(void)
+{
+		uint8_t probflg = 0;
+		
+		probflg = DevGpio_ReadInPut(MONIT);
+	
+		return probflg;
+}
+
+/*!
+ *@brief :StandyDete
+ *@param :none
+ *@retval:none
+ *@none  :待机检测功能，非工作状态持续45S自动关机
+ */
+
+void StandyDete(void)
+{
+		static uint32_t StandyCount = 0;
+	
+		if(WorkStart_Flg == 1)
+		{
+				StandyCount = 0;
+		}else
+		{
+			  StandyCount++;
+		}
+		
+		if(StandyCount > 450)
+		{
+				PowerOff_Flg = 1;
+		}
+}
+

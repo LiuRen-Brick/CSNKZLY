@@ -28,7 +28,8 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* Private variables ---------------------------------------------------------*/
-extern uint8_t Power_Flg;
+extern uint8_t PowerOff_Flg;
+extern uint8_t Led_RedFlg;
 extern union DATA_STORE Data_Store;
 
 uint32_t KEY1_Count = 0;      //按键1计数器
@@ -47,7 +48,7 @@ uint16_t CycleTime = 0;				//PID调控脉冲工作周期
 
 uint8_t Clear_Flg = 0;				//
 uint8_t UltraModule = 1;      //工作模式
-uint8_t Motor_Level = 1;			//电机震动等级
+uint8_t Motor_Level = 2;			//电机震动等级
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
@@ -106,10 +107,25 @@ void SysTick_Handler(void)
 	TimingDelay_Decrement();
 }
 
+static uint32_t WorkTime = 0;
 void TIM14_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM14, TIM_IT_Update) != RESET)
 	{
+		if(WorkStart_Flg == 1)
+		{
+				WorkTime++;
+				if(WorkTime > 360000)
+				{
+						WorkTime = 0;
+					  WorkStart_Flg = 0;
+					  Beep_SatrtFlg = 4;
+				}else
+				{}
+		}else
+		{
+				WorkTime = 0;
+		}
 		Task_Count();
 		TIM_ClearITPendingBit(TIM14, TIM_IT_Update);
 	}
@@ -125,7 +141,6 @@ void TIM14_IRQHandler(void)
 // 1ms
 void TIM17_IRQHandler(void)
 {
-	static uint32_t WorkTime = 0;
 	static uint8_t Key1_Sta = 0;
 	static uint8_t Key2_Sta = 1;
 	static uint8_t SetFlg = 0;
@@ -139,6 +154,20 @@ void TIM17_IRQHandler(void)
 			KEY1_Count++;
 			if((KEY1_Count >= 1000) && (Key1_Sta == 0))
 			{
+				Motor_Level++;
+				if (Motor_Level > 5)
+				{
+					Motor_Level = 5;
+				}else
+				{
+				}
+				Beep_SatrtFlg = 3;
+			}else
+			{
+			}
+		}else{
+			if ((KEY1_Count > 3) && (KEY1_Count < 1000))
+			{
 				UltraModule++;
 				if (UltraModule > 2)
 				{
@@ -148,20 +177,6 @@ void TIM17_IRQHandler(void)
 				}
 				Beep_SatrtFlg = 2;
 				Key1_Sta = 1;
-			}else
-			{
-			}
-		}else{
-			if ((KEY1_Count > 3) && (KEY1_Count < 1000))
-			{
-				Motor_Level++;
-				if (Motor_Level > 5)
-				{
-					Motor_Level = 5;
-				}else
-				{
-				}
-				Beep_SatrtFlg = 3;
 			}else
 			{
 			}
@@ -175,29 +190,29 @@ void TIM17_IRQHandler(void)
 			KEY2_Count++;
 			if ((KEY2_Count >= 1000) && (Key2_Sta == 0))
 			{
-				UltraModule--;
-				if (UltraModule < 1)
-				{
-					UltraModule = 1;
-				}else
-				{
-				}
-				Key2_Sta = 1;
-				Beep_SatrtFlg = 2;
+					Motor_Level--;
+					if (Motor_Level < 1)
+					{
+					Motor_Level = 1;
+					}else
+					{
+					}
+					Beep_SatrtFlg = 3;
 			}else
 			{
 			}
 		}else{
 			if ((KEY2_Count > 3) && (KEY2_Count < 1000))
-			{
-				Motor_Level--;
-				if (Motor_Level < 1)
-				{
-					Motor_Level = 1;
-				}else
-				{
-				}
-				Beep_SatrtFlg = 3;
+			{		
+					UltraModule--;
+					if (UltraModule < 1)
+					{
+					UltraModule = 1;
+					}else
+					{
+					}
+					Key2_Sta = 1;
+					Beep_SatrtFlg = 2;
 			}else
 			{
 			}
@@ -209,13 +224,13 @@ void TIM17_IRQHandler(void)
 		if (PowerOn_Flg == 1)
 		{
 			POWER_Count++;
-			if ((POWER_Count > 1000) && (Power_Flg == 1) && (SetFlg == 0))
+			if ((POWER_Count > 1000) && (PowerOff_Flg == 1) && (SetFlg == 0))
 			{
-				Power_Flg = 0;
+				PowerOff_Flg = 0;
 				SetFlg = 1;
-			}else if ((POWER_Count > 1000) && (Power_Flg == 0) && (SetFlg == 0))
+			}else if ((POWER_Count > 1000) && (PowerOff_Flg == 0) && (SetFlg == 0))
 			{
-				Power_Flg = 1;
+				PowerOff_Flg = 1;
 				SetFlg = 1;
 			}else
 			{
@@ -224,36 +239,22 @@ void TIM17_IRQHandler(void)
 		{
 			if ((POWER_Count > 3) && (POWER_Count < 1000))
 			{
-				if(WorkStart_Flg == 1)
+				if((WorkStart_Flg == 1) || (Led_RedFlg != 0))
 				{
 					WorkStart_Flg = 0;
 					Beep_SatrtFlg = 4;
-				}else
+				}else if((WorkStart_Flg == 0) && (Led_RedFlg == 0))
 				{	
 					WorkStart_Flg = 1;
 					Beep_SatrtFlg = 1;
+				}else
+				{
 				}
-				
 			}else
 			{
 			}
 			SetFlg = 0;
 			POWER_Count = 0;
-		}
-		
-		if(WorkStart_Flg == 1)
-		{
-				WorkTime++;
-				if(WorkTime > 600000)
-				{
-						WorkTime = 0;
-					  WorkStart_Flg = 0;
-					  Beep_SatrtFlg = 4;
-				}else
-				{}
-		}else
-		{
-				WorkTime = 0;
 		}
 
 		#if 0

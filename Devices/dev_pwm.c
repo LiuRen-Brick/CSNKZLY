@@ -36,7 +36,7 @@ static void Set_PWM2_Duty(uint16_t duty)
 static void Set_PWM3_Duty(uint16_t duty)
 {
 	uint32_t compare = 0;
-	compare = duty * 41.67;
+	compare = duty * 42.54;
 	TIM_SetCompare1(TIM16,compare);
 }
 

@@ -37,7 +37,7 @@ uint8_t Bat_Charge;
 uint8_t duty = 0;
 uint8_t Monitoring = 0;
 uint8_t Val = 0;
-uint8_t Power_Flg = 1;
+uint8_t PowerOff_Flg = 1;
 uint16_t TaskCounter = 0;
 
 //////////////////////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ int main(void)
   /* 系统滴答时钟初始化 */
 	SystickInit();
 	/*长按开机*/
-	while(Power_Flg);
+	while(PowerOff_Flg);
 	POWER_ON
 
   /*看门狗*/
@@ -291,7 +291,7 @@ void Tim3BaseInit(void)
 	TIM_BaseConfigStruct.TIM_RepetitionCounter = 0;
 	TIM_BaseConfigStruct.TIM_ClockDivision  = TIM_CKD_DIV1;
 	TIM_BaseConfigStruct.TIM_CounterMode  = TIM_CounterMode_Up;
-	TIM_BaseConfigStruct.TIM_Prescaler  = 720-1;
+	TIM_BaseConfigStruct.TIM_Prescaler  = 72-1;
 	TIM_BaseConfigStruct.TIM_Period = 10000-1;
 	
 	TIM_TimeBaseInit(TIM3,&TIM_BaseConfigStruct);
@@ -381,7 +381,7 @@ void Tim16BaseInit(void)
 	TIM_BaseConfigStruct.TIM_ClockDivision  = TIM_CKD_DIV1;
 	TIM_BaseConfigStruct.TIM_CounterMode  = TIM_CounterMode_Up;
 	TIM_BaseConfigStruct.TIM_Prescaler  = 72-1;
-	TIM_BaseConfigStruct.TIM_Period = 4167-1;
+	TIM_BaseConfigStruct.TIM_Period = 4254-1;
 	
 	TIM_TimeBaseInit(TIM16,&TIM_BaseConfigStruct);
 	TIM_OCInitStruct.TIM_OCMode = TIM_OCMode_PWM1;
@@ -414,7 +414,7 @@ void Tim17BaseInit(void)
 	/* Time Base configuration */
 	TIM_TimeBaseStructure.TIM_Prescaler = 71;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Period = 1000;
+	TIM_TimeBaseStructure.TIM_Period = 1000-1;
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM17, &TIM_TimeBaseStructure);
@@ -432,7 +432,7 @@ void Tim17BaseInit(void)
 }
 
 /*
- *    定时器6 作为时间累加  1ms为周期
+ *    定时器14 作为时间累加  5ms为周期
  */
 #if 1
 void Tim14BaseInit(void)
@@ -444,9 +444,9 @@ void Tim14BaseInit(void)
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM14, ENABLE);
 	/* Time Base configuration */
-	TIM_TimeBaseStructure.TIM_Prescaler = 72-1;
+	TIM_TimeBaseStructure.TIM_Prescaler = 71;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Period = 5000-1;
+	TIM_TimeBaseStructure.TIM_Period = 5050-1;						//实际测试中，定时器比实际时间快做50us补偿
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);

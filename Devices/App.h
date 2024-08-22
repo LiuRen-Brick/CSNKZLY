@@ -11,6 +11,8 @@ void Motor_MainFunc(void);
 void Lipus_MainFunc(void);
 void Get_ChargeSta(void);
 uint8_t Motor_LevelSet(uint8_t level);
+uint8_t ProbTest_MainFunc(void);
+void StandyDete(void);
 
 void Power_MainFunc(void);
 
