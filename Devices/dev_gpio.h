@@ -15,8 +15,8 @@ typedef enum
 	A_SDATA,				//AD9833 数据线
 	A_FSYNC,        //AD9833 使能线
 	POWER,					//电源开关
-	SWITCH,					//
-	MONIT,
+	SWITCH,					//电源键检测
+	MONIT,					//探头检测
 	DevGpioMaxChannlLab,
 }DEVGpioChannlLabType;
 

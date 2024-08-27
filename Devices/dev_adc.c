@@ -117,11 +117,11 @@ void ADC_MainFunc(void)
 	uint16_t TempDualVal = 0;
 	uint16_t VolDualVal = 0;
 	float Bat_vol = 0;
+	float Vol = 0.0f;
+	float Temp_V = 0.0f;
+	float Temp_R = 0.0f;
+	float Temp_T = 0.0f;
 	static uint8_t SampleCount = 0;
-	static float Vol = 0.0f;
-	static float Temp_V = 0.0f;
-	static float Temp_R = 0.0f;
-	static float Temp_T = 0.0f;
 	//判断DMA传输是否完成，准备下一次ADC采样
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC1) == SET)
 	{

@@ -10,9 +10,9 @@ void Beep_MainFunc(uint8_t beep);
 void Motor_MainFunc(void);
 void Lipus_MainFunc(void);
 void Get_ChargeSta(void);
-uint8_t Motor_LevelSet(uint8_t level);
 uint8_t ProbTest_MainFunc(void);
 void StandyDete(void);
+void InitTask1(void *pvParameters);
 
 void Power_MainFunc(void);
 

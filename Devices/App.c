@@ -23,6 +23,12 @@ extern union DATA_STORE Data_Store;
 extern PIDController Pid_Contronl;
 extern uint8_t UltraModule;
 
+static void HighProTask(void *pvParameters);
+static void MediumProTask(void *pvParamters);
+static void LowProTask(void *pvParameters);
+
+static xTaskHandle pInitTaskHandle = NULL;
+
 uint32_t Frequnecy_Param = 0;
 uint32_t Vibration_Param = 0;
 uint8_t Led_RedFlg = 0;
@@ -33,61 +39,77 @@ uint8_t Led_GreenFlg = 0;
  *@retval: none
  *@none:	 功能处理函数，根据模块需求进行分类
  */
-void APP_Start(void)
+void InitTask1(void *pvParameters)
 {
-	if (Task10msFlg)
+		xTaskCreate(HighProTask, 
+								(portCHAR const*) "HighProTask", 
+								HIGHPROTASK_STACK_SIZE, 
+								NULL, 
+								TASK_PRIO_HIGH,
+								NULL);
+								
+		xTaskCreate(MediumProTask, 
+								(portCHAR const*) "MediumProTask", 
+								HIGHPROTASK_STACK_SIZE, 
+								NULL, 
+								TASK_PRIO_HIGH,
+								NULL);		
+								
+		xTaskCreate(LowProTask,
+								(portCHAR const*) "LowProTask",
+								LOWPROTASK_STACK_SIZE,
+								NULL,
+								TASK_PRIO_LOW,
+								NULL);
+								
+		vTaskDelete(pInitTaskHandle);
+}
+
+static void HighProTask(void *pvParamters)
+{
+	for(;;)
 	{
+		Lipus_MainFunc();
+		Power_MainFunc();
+	}
+}
+
+static void MediumProTask(void *pvParamters)
+{
+	for(;;)
+	{
+		IWDG_ReloadCounter();
 		ADC_MainFunc();
-		Task10msFlg = FALSE;
+		Beep_MainFunc(Beep_SatrtFlg);
+		vTaskDelay(200);
 	}
+}
 
-	if (Task20msFlg)
-	{
-		Task20msFlg = FALSE;
-	}
-
-	if (Task50msFlg)
-	{
-		//Motor_MainFunc();
-		Task50msFlg = FALSE;
-	}
-
-	if (Task100msFlg)
+static void LowProTask(void *pvParamters)
+{
+	for(;;)
 	{
 		StandyDete();
 		UltraParam_Set();
-		Task100msFlg = FALSE;
-	}
-
-	if (Task200msFlg)
-	{
-		//IWDG_ReloadCounter();
-		Beep_MainFunc(Beep_SatrtFlg);
-		Task200msFlg = FALSE;
-	}
-
-	if (Task500msFlg)
-	{
-		// IWDG_ReloadCounter();
-		Task500msFlg = FALSE;
-	}
-
-	if (Task1000msFlg)
-	{
 		LED_MainFunc();
-		Task1000msFlg = FALSE;
+		vTaskDelay(500);
 	}
-	
-	
+}
 
-	Lipus_MainFunc();
-	Power_MainFunc();
+void APP_Start(void)
+{
+	xTaskCreate(InitTask1,
+							 (portCHAR const* ) "vInitTask", 
+							 128, 
+							 NULL, 
+							 5, 
+							 &pInitTaskHandle);
 }
 
 // 初始化LED灯
 void LED_Init(void)
 {
-	DevGpio_SetOutPut(LED_RED, Bit_SET);	 // 设置红色LED灯为关闭状态
+	DevGpio_SetOutPut(LED_RED, Bit_SET);	   // 设置红色LED灯为关闭状态
 	DevGpio_SetOutPut(LED_GREEN, Bit_RESET); // 设置绿色LED灯为开启状态
 }
 
@@ -101,6 +123,7 @@ void LED_MainFunc(void)
 {
 	uint8_t alarmflg = 0;
 	
+	/*检测探头是否接入*/
 	//alarmflg = ProbTest_MainFunc();
 	// 根据充电标志设置红色LED标志
 	if(alarmflg == 0x01)
@@ -429,12 +452,14 @@ void Power_MainFunc(void)
 		DevGpio_SetOutPut(MOTOR_GATE, Bit_RESET);
 		// 设置PWM占空比为0%
 		Devpwm_SetDuty(SET_PWM1, 0);
+		GPIO_DeInit(GPIOA);
+		GPIO_DeInit(GPIOB);
 		TIM_Cmd(TIM3, DISABLE);
 		TIM_Cmd(TIM15, DISABLE);
 		TIM_Cmd(TIM16, DISABLE);
 
 		while (PowerOff_Flg)
-			POWER_OFF;;
+			POWER_OFF;
 	}
 }
 
@@ -472,7 +497,7 @@ void StandyDete(void)
 			  StandyCount++;
 		}
 		
-		if(StandyCount > 450)
+		if(StandyCount > 90)
 		{
 				PowerOff_Flg = 1;
 		}

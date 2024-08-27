@@ -89,7 +89,7 @@ void UltraParam_Init(void)
 				Flash_Write(FLASHSTORE,&Data_Store.data,1);
 		}
 		
-		fre = 1900000 + 4000 * Data_Store.Ultra_Config.Frequency;
+		fre = 2040000;//1900000 + 4000 * Data_Store.Ultra_Config.Frequency;    //Ä¬ÈÏÇý¶¯ÆµÂÊ1M
 		Devpwm_SetDuty(SET_PWM3,100);
 		AD9833_InitIo(AD9877_Ch_A);
 		AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,fre,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);

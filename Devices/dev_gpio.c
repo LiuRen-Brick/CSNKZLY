@@ -6,8 +6,8 @@ typedef struct
 	uint16_t GPIO_Pin;
 }DevGpioHandleType;
 
-#define GPIO01	GPIOB,GPIO_Pin_8
-#define GPIO02	GPIOB,GPIO_Pin_9
+#define GPIO01	GPIOB,GPIO_Pin_9
+#define GPIO02	GPIOB,GPIO_Pin_8
 #define GPIO03	GPIOA,GPIO_Pin_7
 #define GPIO04	GPIOB,GPIO_Pin_1
 #define GPIO05	GPIOA,GPIO_Pin_8
