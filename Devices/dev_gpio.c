@@ -6,8 +6,8 @@ typedef struct
 	uint16_t GPIO_Pin;
 }DevGpioHandleType;
 
-#define GPIO01	GPIOB,GPIO_Pin_9
-#define GPIO02	GPIOB,GPIO_Pin_8
+#define GPIO01	GPIOB,GPIO_Pin_8
+#define GPIO02	GPIOB,GPIO_Pin_9
 #define GPIO03	GPIOA,GPIO_Pin_7
 #define GPIO04	GPIOB,GPIO_Pin_1
 #define GPIO05	GPIOA,GPIO_Pin_8
@@ -18,12 +18,13 @@ typedef struct
 #define GPIO10	GPIOA,GPIO_Pin_9
 #define GPIO11	GPIOA,GPIO_Pin_10
 #define GPIO12	GPIOB,GPIO_Pin_0
+#define GPIO13 	GPIOA,GPIO_Pin_15
 
 uint8_t PowerFlg = 0;
 
 static DevGpioHandleType dev_gpio_handle[DevGpioMaxChannlLab] = 
 {
-	[LED_RED]    = {GPIO01},
+	[LED_RED]    = {GPIO01},  
 	[LED_GREEN]  = {GPIO02},
 	[MOTOR_GATE] = {GPIO03},
 	[V45_EN]     = {GPIO04},
@@ -35,6 +36,7 @@ static DevGpioHandleType dev_gpio_handle[DevGpioMaxChannlLab] =
 	[POWER]		   = {GPIO10},
 	[SWITCH]	   = {GPIO11},
 	[MONIT]			 = {GPIO12},
+	[BATCHARGE]  = {GPIO13},
 };  
 
 /*!

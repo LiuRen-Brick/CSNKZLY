@@ -33,6 +33,7 @@ uint32_t Frequnecy_Param = 0;
 uint32_t Vibration_Param = 0;
 uint8_t Led_RedFlg = 0;
 uint8_t Led_GreenFlg = 0;
+uint8_t ChargeFlg = 0;
 /*!
  *@brief:	 APP_Start
  *@param:	 none
@@ -123,6 +124,7 @@ void LED_MainFunc(void)
 {
 	uint8_t alarmflg = 0;
 	
+	ChargeFlg = DevGpio_ReadInPut(BATCHARGE);
 	/*检测探头是否接入*/
 	//alarmflg = ProbTest_MainFunc();
 	// 根据充电标志设置红色LED标志
@@ -368,6 +370,7 @@ void Lipus_MainFunc(void)
 			DevGpio_SetOutPut(WAVE_EN, Bit_SET);
 			//DevGpio_SetOutPut(MOTOR_GATE, Bit_SET);
 			// 设置超声脉冲占空比为66%
+			/*
 			current_temp = Ultra_Temp;
 			CycleDuty = (uint8_t)PIDController_Update(&Pid_Contronl, current_temp, 1);
 			if (current_temp > 38.0)
@@ -414,8 +417,9 @@ void Lipus_MainFunc(void)
 					OverTemp_Flg = 0;
 				}
 			}
-		}
-		else
+			*/
+			Devpwm_SetDuty(SET_PWM1, duty);
+		}else
 		{
 			// 设置相关GPIO输出为低电平
 			DevGpio_SetOutPut(V12_EN, Bit_RESET);
@@ -440,7 +444,7 @@ void Lipus_MainFunc(void)
 
 void Power_MainFunc(void)
 {
-	if (PowerOff_Flg == 1)
+	if ((PowerOff_Flg == 1) || (ChargeFlg == 1))
 	{
 		POWER_OFF;
 		DevGpio_SetOutPut(LED_RED, Bit_SET);   // 设置红色LED灯为关闭状态

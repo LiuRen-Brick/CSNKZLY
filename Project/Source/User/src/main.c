@@ -16,6 +16,21 @@
   *under any patent rights of Fremont Micro Devices (SZ) Corporation.
   *  ******************************************************************************
   */
+	\
+	
+	/*
+ * Keil 编译后 Flash 和 RAM 占用情况：
+ * Program Size: Code=15236 RO-data=1708 RW-data=240 ZI-data=5440
+ *
+ * Code -- 代码
+ * RO-data -- 常量
+ * RW-data -- 可读写变量，已初始化
+ * ZI-data -- 可读写变量，未初始化
+ *
+ * 以上flash和ram占用情况：flash = 64K	RAM = 8K
+ * flash = Code + RO-data + RW-data = 15236 + 1708 + 240 = 17184 bytes = 16.78kb
+ * ram = RW-data + ZI-data = 240 + 5440 = 5680 bytes = 5.55kb
+ */
 /* Includes ----------------------------------------------------------------------*/
 #include "main.h"
 
@@ -110,6 +125,13 @@ void FT32_GPIOA_Init(void)
 		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
 		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_UP;
+	
+		GPIO_Init(GPIOA,&GPIO_InitStructure);
+	
+		//PA15-GPIO_IN
+		GPIO_InitStructure.GPIO_Pin = GPIO_Pin_15;
+		GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN;
+		GPIO_InitStructure.GPIO_PuPd = GPIO_PuPd_DOWN;
 	
 		GPIO_Init(GPIOA,&GPIO_InitStructure);
 }

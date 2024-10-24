@@ -83,11 +83,24 @@ void HardFault_Handler(void)
   * @retval None
   *********************************************************************************
 */
+//5msÖÜÆÚ
 void TIM14_IRQHandler(void)
 {
+	static uint16_t ChargeCount = 0;
 	if (TIM_GetITStatus(TIM14, TIM_IT_Update) != RESET)
 	{
 		
+		if(DevGpio_ReadInPut(BATCHARGE))
+		{
+				ChargeCount++;
+			if(ChargeCount > 200)
+			{
+					PowerOff_Flg = 1;
+			}
+		}else
+		{
+				ChargeCount = 0;
+		}
 		if(WorkStart_Flg == 1)
 		{
 				WorkTime++;

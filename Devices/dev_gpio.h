@@ -17,6 +17,7 @@ typedef enum
 	POWER,					//电源开关
 	SWITCH,					//电源键检测
 	MONIT,					//探头检测
+	BATCHARGE,
 	DevGpioMaxChannlLab,
 }DEVGpioChannlLabType;
 

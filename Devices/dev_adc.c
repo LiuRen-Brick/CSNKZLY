@@ -3,8 +3,12 @@
 
 static float ADCSample_Filter(float buff[],uint8_t len);
 
-float SampleTemp_Buff[16];
-float SampleVol_Buff[16] = {3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500};
+float SampleTemp_Buff[30];
+float SampleVol_Buff[30] = 
+{
+	3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,
+	3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500,3500
+};
 
 extern uint32_t DMA_DualConvertedValue[2];
 float Battery_vol = 0;
@@ -117,11 +121,11 @@ void ADC_MainFunc(void)
 	uint16_t TempDualVal = 0;
 	uint16_t VolDualVal = 0;
 	float Bat_vol = 0;
-	float Vol = 0.0f;
-	float Temp_V = 0.0f;
-	float Temp_R = 0.0f;
-	float Temp_T = 0.0f;
 	static uint8_t SampleCount = 0;
+	static float Vol = 0.0f;
+	static float Temp_V = 0.0f;
+	static float Temp_R = 0.0f;
+	static float Temp_T = 0.0f;
 	//判断DMA传输是否完成，准备下一次ADC采样
 	if(DMA_GetFlagStatus(DMA1_FLAG_TC1) == SET)
 	{
@@ -143,9 +147,9 @@ void ADC_MainFunc(void)
 		Temp_T = look1_iflf_binlxpw(Temp_R, INP_HWTemp1_R, OUT_HWTemp1_T, 159);
 		SampleTemp_Buff[SampleCount] = Temp_T;
 		Ultra_Temp = ADCSample_Filter(SampleTemp_Buff,15) - 1.5;
-		Battery_vol = ADCSample_Filter(SampleVol_Buff,15);
+		Battery_vol = ADCSample_Filter(SampleVol_Buff,30);
 		SampleCount++;
-		if(SampleCount > 15)
+		if(SampleCount > 30)
 		{
 				SampleCount = 0;
 		}

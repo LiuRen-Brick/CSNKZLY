@@ -1,5 +1,5 @@
-./objects/bsp_systick.o: Source\User\src\bsp_systick.c \
-  Source\User\inc\bsp_systick.h \
+../../../csnkzlyfreertos/project/objects/bsp_systick.o: \
+  ..\USER\Sourse\bsp_systick.c ..\User\Include\bsp_systick.h \
   D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f0xx.h \
   D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\ft32f030x8.h \
   D:\Arm\Packs\FMD\FT32F0xx_DFP\1.1.0\Drivers\CMSIS\FT32F0xx\Include\core_cm0.h \
