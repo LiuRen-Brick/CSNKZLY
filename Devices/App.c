@@ -29,11 +29,13 @@ static void LowProTask(void *pvParameters);
 
 static xTaskHandle pInitTaskHandle = NULL;
 
+static uint8_t Low_Battery_Flg = 0;
+static uint8_t Low_Battery_old_Flg = 0;
+
 uint32_t Frequnecy_Param = 0;
 uint32_t Vibration_Param = 0;
 uint8_t Led_RedFlg = 0;
 uint8_t Led_GreenFlg = 0;
-uint8_t ChargeFlg = 0;
 /*!
  *@brief:	 APP_Start
  *@param:	 none
@@ -91,7 +93,7 @@ static void LowProTask(void *pvParamters)
 	for(;;)
 	{
 		StandyDete();
-		UltraParam_Set();
+		//UltraParam_Set();
 		LED_MainFunc();
 		vTaskDelay(500);
 	}
@@ -120,62 +122,122 @@ void LED_Init(void)
  * 参数: 无
  * 返回值: 无
  */
+typedef enum
+{
+		LEDRed_On = 1,
+		LEDRed_Glitter,
+		LEDGreen_On,
+		LEDGreen_Glitter
+}LED_STATE;
+
 void LED_MainFunc(void)
 {
-	uint8_t alarmflg = 0;
+	//uint8_t alarmflg = 0;
+	static uint8_t ledflg = LEDGreen_On;
 	
-	ChargeFlg = DevGpio_ReadInPut(BATCHARGE);
 	/*检测探头是否接入*/
-	//alarmflg = ProbTest_MainFunc();
-	// 根据充电标志设置红色LED标志
-	if(alarmflg == 0x01)
+	//	alarmflg = ProbTest_MainFunc();
+	if(WorkStart_Flg == 1)
 	{
-		Led_RedFlg = 2;
-		WorkStart_Flg = 0;
-	}else if(Battery_vol < 3200)
-	{
-		Led_RedFlg = 1;
-		WorkStart_Flg = 0;
+			if((Battery_vol < 3300) || (Low_Battery_Flg == 1))
+			{
+					ledflg = LEDRed_Glitter;
+				  Low_Battery_Flg = 1;
+			}else if(Low_Battery_Flg == 0)
+			{
+					ledflg = LEDGreen_Glitter;
+			}else
+			{
+			}
 	}else
 	{
-		Led_RedFlg = 0;
+			if((Battery_vol < 3200) || (Low_Battery_Flg == 1))
+			{
+					ledflg = LEDRed_On;
+					Low_Battery_Flg = 1;
+			}else if(Low_Battery_Flg == 0)
+			{
+					ledflg = LEDGreen_On;
+			}else
+			{
+			}
 	}
-
-	// 根据工作开始标志和红色LED标志设置绿色LED标志
-	if (WorkStart_Flg == 0x01)
+	if((WorkStart_Flg == 1) && (ledflg == Led_GreenFlg))
 	{
-		Led_GreenFlg = 0x02;
+			ledflg = LEDGreen_On;
 	}else
 	{
-		Led_GreenFlg = 0x01;
 	}
-
-	// 根据红色LED标志设置红色LED输出
-	if(Led_RedFlg == 0x02)
+	if(Battery_vol < 3100)
 	{
-			GPIO_ToggleBit(LED_RED);
-		  DevGpio_SetOutPut(LED_GREEN, Bit_SET);
-	}else	if (Led_RedFlg == 0x01)
+			PowerOff_Flg = 1;
+	}
+		
+	switch(ledflg)
 	{
+		case LEDRed_On:
 			DevGpio_SetOutPut(LED_RED, Bit_RESET);
+			DevGpio_SetOutPut(LED_GREEN, Bit_SET);   
+		break;
+		
+		case LEDRed_Glitter:
+			GPIO_ToggleBit(LED_RED);
 			DevGpio_SetOutPut(LED_GREEN, Bit_SET);
-	}else
-	{
+		break;
+		
+		case LEDGreen_On:
 			DevGpio_SetOutPut(LED_RED, Bit_SET);
-			// 根据绿色LED标志设置绿色LED输出
-			if (Led_GreenFlg == 0x02)
-			{
-				GPIO_ToggleBit(LED_GREEN);
-			}
-			else if (Led_GreenFlg == 0x01)
-			{
-				DevGpio_SetOutPut(LED_GREEN, Bit_RESET);
-			}
-			else
-			{
-				DevGpio_SetOutPut(LED_GREEN, Bit_SET);
-			}
+			DevGpio_SetOutPut(LED_GREEN, Bit_RESET); 
+		break;		
+		
+		case LEDGreen_Glitter:
+			GPIO_ToggleBit(LED_GREEN);
+			DevGpio_SetOutPut(LED_RED, Bit_SET);
+		break;
+		default:
+			break;
 	}
+	
+	if((Low_Battery_old_Flg != Low_Battery_Flg) && (Low_Battery_Flg == 1))
+	{
+			Beep_SatrtFlg = 5;
+	}
+	
+}
+
+static void Beep_MinorFunc(uint8_t count)
+{
+		static uint8_t Beep_SatrtFlg_old;
+		static uint8_t BeepSta = 0;
+		static uint8_t BeepCount = 0;
+		
+		if(Beep_SatrtFlg != Beep_SatrtFlg_old)
+		{
+			BeepSta = 0;
+			BeepCount = 0;
+			Beep_SatrtFlg_old = Beep_SatrtFlg;
+		}
+	
+		if (BeepSta == 0)
+		{
+			BEEP_ON;
+			BeepSta = 1;
+		}else if (BeepSta == 1)
+		{
+			BEEP_OFF;
+			BeepSta = 0;
+			BeepCount++;
+		}
+
+		if (BeepCount >= count)
+		{
+			Beep_SatrtFlg = 0;
+			BeepCount = 0;
+			Beep_SatrtFlg = 0;
+			Low_Battery_old_Flg = Low_Battery_Flg;
+		}else
+		{
+		}
 }
 
 /*
@@ -186,96 +248,81 @@ void LED_MainFunc(void)
  */
 void Beep_MainFunc(uint8_t beep)
 {
-	// 静态变量，用于记录蜂鸣器的计数
 	static uint8_t BeepCount = 0;
 	static uint8_t BeepSta = 0;
-
+	static uint8_t Count = 0;
+	static uint8_t Beep_SatrtFlg_old = 0;
+	
+	if(Beep_SatrtFlg != Beep_SatrtFlg_old)
+	{
+		Beep_SatrtFlg_old = 0;
+		BeepSta = 0;
+		BeepCount = 0;
+		Beep_SatrtFlg_old = Beep_SatrtFlg;
+	}
+	
 	switch (beep)
 	{
 		case 1:
-			if (BeepSta == 0)
-			{
-				BEEP_ON;
-				BeepSta = 1;
-			}else if (BeepSta == 1)
-			{
-				BEEP_OFF;
-				BeepSta = 0;
-				BeepCount++;
-			}
-
-			if (BeepCount >= 1)
-			{
-				Beep_SatrtFlg = 0;
-				BeepCount = 0;
-			}else
-			{
-			}
-					
+			
+			Beep_MinorFunc(1);
 		break;
+		
 		case 2:
-
-			if (BeepSta == 0)
-			{
-				BEEP_ON;
-				BeepSta = 1;
-			}else if (BeepSta == 1)
-			{
-				BEEP_OFF;
-				BeepSta = 0;
-				BeepCount++;
-			}
-
-			if (BeepCount >= UltraModule)
-			{
-				Beep_SatrtFlg = 0;
-				BeepCount = 0;
-			}else
-			{
-			}
+			
+			Beep_MinorFunc(UltraModule);
 		break;
+		
 		case 3:
-			if (BeepSta == 0)
-			{
-				BEEP_ON;
-				BeepSta = 1;
-			}else if (BeepSta == 1)
-			{
-				BEEP_OFF;
-				BeepSta = 0;
-				BeepCount++;
-			}
-
-			if (BeepCount >= Motor_Level)
-			{
-				Beep_SatrtFlg = 0;
-				BeepCount = 0;
-			}else
-			{
-			}
+			
+			Beep_MinorFunc(Motor_Level);
 		break;
 
 		case 4:
-			if (BeepSta == 0)
+			Count++;
+			
+			if((Count <= 4) || ((Count > 8) && (Count <= 12)))
 			{
-				BEEP_ON;
-				BeepSta = 1;
-			}else if (BeepSta == 1)
+				if (BeepSta == 0)
+				{
+					BEEP_ON;
+					BeepSta = 1;
+				}else if (BeepSta == 1)
+				{
+					BEEP_OFF;
+					BeepSta = 0;
+					BeepCount++;
+				}
+		  }else
 			{
-				BEEP_OFF;
-				BeepSta = 0;
-				BeepCount++;
 			}
 
-			if (BeepCount >= 2)
+			if(BeepCount >= 4)
 			{
+				Count = 0;
 				Beep_SatrtFlg = 0;
 				BeepCount = 0;
+				Beep_SatrtFlg = 0;
 			}else
 			{
 			}
 			break;
+		case 5:
+			if((Low_Battery_Flg != Low_Battery_old_Flg) && (Low_Battery_Flg == 1))
+			{
+				Beep_MinorFunc(3);
+			}else
+			{
+				Beep_SatrtFlg = 0;
+				BeepCount = 0;
+				Beep_SatrtFlg = 0;
+			}
+		break;
+			
 		default:
+			Count = 0;
+			Beep_SatrtFlg = 0;
+			BeepCount = 0;
 		break;
 	}
 }
@@ -349,7 +396,7 @@ void Lipus_MainFunc(void)
 	static uint8_t CycleDuty = 100;
 	float current_temp = 0;
 	uint8_t OverTemp_Flg = 0;
-	uint8_t duty = 0;
+	uint8_t duty = 100;
 	
 	if(UltraModule == 1)
 	{
@@ -369,55 +416,6 @@ void Lipus_MainFunc(void)
 			DevGpio_SetOutPut(V45_EN, Bit_SET);
 			DevGpio_SetOutPut(WAVE_EN, Bit_SET);
 			//DevGpio_SetOutPut(MOTOR_GATE, Bit_SET);
-			// 设置超声脉冲占空比为66%
-			/*
-			current_temp = Ultra_Temp;
-			CycleDuty = (uint8_t)PIDController_Update(&Pid_Contronl, current_temp, 1);
-			if (current_temp > 38.0)
-			{
-				if (CycleTime < (CycleDuty * 20))
-				{
-					Devpwm_SetDuty(SET_PWM1, duty);
-				}
-				else if ((CycleTime >= (CycleDuty * 20)) && (CycleTime < 2000))
-				{
-					Devpwm_SetDuty(SET_PWM1, 00);
-				}
-				else
-				{
-					CycleTime = 0;
-				}
-				OverTemp_Flg = 1;
-			}
-			else if (current_temp < 35.0)
-			{
-				Devpwm_SetDuty(SET_PWM1, duty);
-				OverTemp_Flg = 0;
-			}
-			else
-			{
-				if (OverTemp_Flg == 1)
-				{
-					if (CycleTime < (CycleDuty * 20))
-					{
-						Devpwm_SetDuty(SET_PWM1, duty);
-					}
-					else if ((CycleTime >= (CycleDuty * 20)) && (CycleTime < 2000))
-					{
-						Devpwm_SetDuty(SET_PWM1, 00);
-					}
-					else
-					{
-						CycleTime = 0;
-					}
-				}
-				else
-				{
-					Devpwm_SetDuty(SET_PWM1, duty);
-					OverTemp_Flg = 0;
-				}
-			}
-			*/
 			Devpwm_SetDuty(SET_PWM1, duty);
 		}else
 		{
@@ -444,7 +442,7 @@ void Lipus_MainFunc(void)
 
 void Power_MainFunc(void)
 {
-	if ((PowerOff_Flg == 1) || (ChargeFlg == 1))
+	if (PowerOff_Flg == 1)
 	{
 		POWER_OFF;
 		DevGpio_SetOutPut(LED_RED, Bit_SET);   // 设置红色LED灯为关闭状态

@@ -149,7 +149,7 @@ void ADC_MainFunc(void)
 		Ultra_Temp = ADCSample_Filter(SampleTemp_Buff,15) - 1.5;
 		Battery_vol = ADCSample_Filter(SampleVol_Buff,30);
 		SampleCount++;
-		if(SampleCount > 30)
+		if(SampleCount >= 30)
 		{
 				SampleCount = 0;
 		}

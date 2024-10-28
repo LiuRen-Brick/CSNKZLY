@@ -46,7 +46,7 @@ uint8_t SetFreq_Flg = 0;
 uint16_t CycleTime = 0;				//PID调控脉冲工作周期
 
 uint8_t Clear_Flg = 0;				//
-uint8_t UltraModule = 2;      //工作模式
+uint8_t UltraModule = 0;      //工作模式
 uint8_t Motor_Level = 2;			//电机震动等级
 /* Private function prototypes ---------------------------------------------------*/
 /* Public function ------ --------------------------------------------------------*/
@@ -156,14 +156,14 @@ void TIM17_IRQHandler(void)
 				}else
 				{
 				}
-				Beep_SatrtFlg = 3;
+				//Beep_SatrtFlg = 3;
 			}else
 			{
 			}
 		}else{
 			if ((KEY1_Count > 3) && (KEY1_Count < 1000))
 			{
-				UltraModule++;
+				UltraModule = 2;
 				if (UltraModule > 2)
 				{
 					UltraModule = 2;
@@ -199,7 +199,7 @@ void TIM17_IRQHandler(void)
 		}else{
 			if ((KEY2_Count > 3) && (KEY2_Count < 1000))
 			{		
-					UltraModule--;
+					UltraModule = 1;
 					if (UltraModule < 1)
 					{
 					UltraModule = 1;
@@ -207,7 +207,7 @@ void TIM17_IRQHandler(void)
 					{
 					}
 					Key2_Sta = 1;
-					Beep_SatrtFlg = 2;
+					//Beep_SatrtFlg = 2;
 			}else
 			{
 			}
@@ -219,11 +219,11 @@ void TIM17_IRQHandler(void)
 		if (PowerOn_Flg == 1)
 		{
 			POWER_Count++;
-			if ((POWER_Count > 1000) && (PowerOff_Flg == 1) && (SetFlg == 0))
+			if ((POWER_Count > 1500) && (PowerOff_Flg == 1) && (SetFlg == 0))
 			{
 				PowerOff_Flg = 0;
 				SetFlg = 1;
-			}else if ((POWER_Count > 1000) && (PowerOff_Flg == 0) && (SetFlg == 0))
+			}else if ((POWER_Count > 1500) && (PowerOff_Flg == 0) && (SetFlg == 0))
 			{
 				PowerOff_Flg = 1;
 				SetFlg = 1;

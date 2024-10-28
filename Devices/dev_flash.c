@@ -89,7 +89,7 @@ void UltraParam_Init(void)
 				Flash_Write(FLASHSTORE,&Data_Store.data,1);
 		}
 		
-		fre = 2040000;//1900000 + 4000 * Data_Store.Ultra_Config.Frequency;    //默认驱动频率1M
+		fre = 1040 * 2 * 1000;//1900000 + 4000 * Data_Store.Ultra_Config.Frequency;    //默认驱动频率1.02M
 		Devpwm_SetDuty(SET_PWM3,100);
 		AD9833_InitIo(AD9877_Ch_A);
 		AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,fre,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);

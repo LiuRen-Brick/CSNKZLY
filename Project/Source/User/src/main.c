@@ -16,7 +16,6 @@
   *under any patent rights of Fremont Micro Devices (SZ) Corporation.
   *  ******************************************************************************
   */
-	\
 	
 	/*
  * Keil 编译后 Flash 和 RAM 占用情况：
@@ -459,7 +458,7 @@ void Tim14BaseInit(void)
 	/* Time Base configuration */
 	TIM_TimeBaseStructure.TIM_Prescaler = 71;
 	TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
-	TIM_TimeBaseStructure.TIM_Period = 5050-1;						//实际测试中，定时器比实际时间快做50us补偿
+	TIM_TimeBaseStructure.TIM_Period = 5030-1;						//实际测试中，定时器比实际时间快做30us补偿
 	TIM_TimeBaseStructure.TIM_ClockDivision = 0;
 	TIM_TimeBaseStructure.TIM_RepetitionCounter = 0;
 	TIM_TimeBaseInit(TIM14, &TIM_TimeBaseStructure);
