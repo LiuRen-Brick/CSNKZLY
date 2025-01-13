@@ -19,6 +19,5 @@ union DATA_STORE
 FLASH_Status Flash_Write(uint32_t addr,uint32_t* buff,uint8_t len);
 void Flash_Read(uint32_t addr,uint32_t *buff,uint8_t len);
 void UltraParam_Init(void);
-void UltraParam_Set(void);
 
 #endif

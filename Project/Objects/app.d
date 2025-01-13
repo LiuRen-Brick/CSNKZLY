@@ -49,4 +49,4 @@
   Source\Tasks\inc\TaskManager.h Source\Tasks\inc\LowProTask.h \
   Source\Tasks\inc\InitTask.h RTE\Device\FT32F030G8BUx\ft32f0xx_conf.h \
   ..\Devices\dev_adc.h ..\Devices\dev_gpio.h ..\Devices\dev_pwm.h \
-  ..\Devices\dev_flash.h ..\Devices\dev_pid.h
+  ..\Devices\dev_flash.h ..\Devices\dev_beep.h

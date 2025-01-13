@@ -38,7 +38,7 @@
 #include "dev_gpio.h"
 #include "dev_pwm.h"
 #include "dev_flash.h"
-#include "dev_pid.h"
+#include "dev_beep.h"
 #include "App.h"
 
 static void FT32_GPIOA_Init(void);
@@ -53,14 +53,10 @@ static void Tim14BaseInit(void);
 static void IWDG_Config(void);
 
 uint8_t PowerOff_Flg = 1;
+extern BEEP_STATE BeepState;
 
 uint32_t DMA_DualConvertedValue[1] = {0};
 __IO uint32_t lsi_freq = 40000;
-
-//extern uint8_t KEY1_Flg;
-//extern uint8_t KEY2_Flg;
-extern PIDController Pid_Contronl;
-extern uint8_t Beep_SatrtFlg;
 
 /**********************************************************************************
   * @brief  main program
@@ -88,20 +84,16 @@ int main(void)
 	//SysTick_Configuration();
 	/*长按开机*/
 	while(PowerOff_Flg);
-	POWER_ON
+	POWER_ON();
 
-  /*看门狗*/
-	IWDG_Config();
-	LED_Init();
-	UltraParam_Init();
-	PIDController_Init(&Pid_Contronl,0.8,0.03,0.02,38,10.0,100.0);
-
+ 	/*看门狗*/
+	//IWDG_Config();
 	APP_Start();
 	vTaskStartScheduler();            // System scheduling
-	//while(1)
-	//{
-	//		
-	//}
+	while(1)
+	{
+			
+	}
 	return (0);       
 }
 

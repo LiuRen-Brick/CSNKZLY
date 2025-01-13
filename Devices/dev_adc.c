@@ -133,7 +133,7 @@ void ADC_MainFunc(void)
 		VolDualVal = ((DMA_DualConvertedValue[0] >> 16) & 0xFFFF);
 		//电池电压计算公式
 		Bat_vol = VolDualVal * 3300 / 4096;
-		SampleVol_Buff[SampleCount] = Bat_vol * 2.9437;
+		SampleVol_Buff[SampleCount] = Bat_vol / 0.35688;
 		//温度电压计算公式
 		Vol = TempDualVal * 3.3 /4096;
 		//Vout =  Gain * Vin;    (Gain = 1 + (100K/Rg))

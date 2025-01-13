@@ -28,8 +28,8 @@
 #define FALSE 0
 #define TRUE	1
 #define ADC1_DR_Address		0x40012400 + 0X40
-#define POWER_ON	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_SET);
-#define POWER_OFF	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_RESET);
+#define POWER_ON() 	  GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_SET);
+#define POWER_OFF() 	GPIO_WriteBit(GPIOA,GPIO_Pin_9,Bit_RESET);
 
 /* Public variables prototypes --------------------------------------------------*/
 

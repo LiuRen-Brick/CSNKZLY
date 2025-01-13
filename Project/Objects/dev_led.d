@@ -1,6 +1,5 @@
-./objects/ft32f0xx_it.o: Source\User\src\ft32f0xx_it.c \
-  Source\User\inc\ft32f0xx_it.h Source\User\inc\main.h \
-  Source\User\inc\config.h \
+./objects/dev_led.o: ..\Devices\dev_led.c ..\Devices\App.h \
+  Source\User\inc\main.h Source\User\inc\config.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdint.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\stdlib.h \
   D:\Keil_v5\ARM\ARMCLANG\Bin\..\include\string.h \
@@ -49,6 +48,4 @@
   Source\User\inc\config.h Source\Tasks\inc\HighProTask.h \
   Source\Tasks\inc\TaskManager.h Source\Tasks\inc\LowProTask.h \
   Source\Tasks\inc\InitTask.h RTE\Device\FT32F030G8BUx\ft32f0xx_conf.h \
-  Source\Tasks\inc\HighProTask.h Source\Tasks\inc\LowProTask.h \
-  ..\Devices\dev_gpio.h Source\User\inc\main.h ..\Devices\dev_flash.h \
-  ..\Devices\dev_ad9877.h ..\Devices\dev_beep.h ..\Devices\App.h
+  ..\Devices\dev_gpio.h

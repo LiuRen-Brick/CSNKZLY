@@ -22,14 +22,19 @@
 #include "dev_gpio.h"
 #include "dev_flash.h"
 #include "dev_ad9877.h"
+#include "dev_beep.h"
+#include "App.h"
 /* Public Constant ---------------------------------------------------------------*/
 /* Private typedef ---------------------------------------------------------------*/
 /* Private variables -------------------------------------------------------------*/
-static uint32_t WorkTime = 0;
+
 /* Public variables --------------------------------------------------------------*/
 extern uint8_t PowerOff_Flg;
-extern uint8_t Led_RedFlg;
-extern union DATA_STORE Data_Store;
+extern DEV_WORK_STATE DevWorkState;
+extern BEEP_STATE BeepState;
+extern uint8_t UltraDuty;
+
+uint32_t WorkTime = 0;
 
 uint32_t KEY1_Count = 0;      //按键1计数器
 uint32_t KEY2_Count = 0;			//按键2计数器
@@ -39,15 +44,9 @@ uint8_t KEY1_Flg = 0;					//按键1标志位
 uint8_t KEY2_Flg = 0;					//按键2计数器
 uint8_t PowerOn_Flg = 0;			//电源键计数器
 
-uint8_t Beep_SatrtFlg = 0;    //蜂鸣器启动标志位
-uint8_t WorkStart_Flg = 0;		//超声工作标志位
-uint8_t SetFreq_Flg = 0;
+uint32_t StandyTime = 0;
 
-uint16_t CycleTime = 0;				//PID调控脉冲工作周期
-
-uint8_t Clear_Flg = 0;				//
-uint8_t UltraModule = 0;      //工作模式
-uint8_t Motor_Level = 2;			//电机震动等级
+static uint8_t ChargeFlg = 0;
 /* Private function prototypes ---------------------------------------------------*/
 /* Public function ------ --------------------------------------------------------*/
 /* Private function ------ -------------------------------------------------------*/
@@ -83,34 +82,42 @@ void HardFault_Handler(void)
   * @retval None
   *********************************************************************************
 */
+
 //5ms周期
 void TIM14_IRQHandler(void)
 {
 	static uint16_t ChargeCount = 0;
 	if (TIM_GetITStatus(TIM14, TIM_IT_Update) != RESET)
 	{
-		
+		StandyTime++;
 		if(DevGpio_ReadInPut(BATCHARGE))
 		{
 				ChargeCount++;
 			if(ChargeCount > 200)
 			{
 					PowerOff_Flg = 1;
+					DevWorkState = CLOSE_STATE;
+				
+					ChargeFlg = 1;
 			}
 		}else
 		{
 				ChargeCount = 0;
 		}
-		if(WorkStart_Flg == 1)
+		
+		if(DevWorkState == WORK_STATE)
 		{
 				WorkTime++;
 				if(WorkTime > 360000)
 				{
-						WorkTime = 0;
-					  WorkStart_Flg = 0;
-					  Beep_SatrtFlg = 4;
+						DevWorkState = IDLE_STATE;
+						BeepState = DEV_FINISH;
 				}else
-				{}
+				{
+				}
+		}else if(DevWorkState == PAUSE_STATE)
+		{
+				
 		}else
 		{
 				WorkTime = 0;
@@ -134,84 +141,41 @@ void TIM14_IRQHandler(void)
   * @retval None
   *********************************************************************************
 */
+//1ms
 void TIM17_IRQHandler(void)
 {
-	static uint8_t Key1_Sta = 0;
-	static uint8_t Key2_Sta = 1;
 	static uint8_t SetFlg = 0;
-	
-
 	if (TIM_GetITStatus(TIM17, TIM_IT_Update) != RESET)
 	{
 		/**************************按键1触发事件**************************/ 
 		if(KEY1_Flg == 1)
 		{
 			KEY1_Count++;
-			if((KEY1_Count >= 1000) && (Key1_Sta == 0))
-			{
-				Motor_Level++;
-				if (Motor_Level > 5)
-				{
-					Motor_Level = 5;
-				}else
-				{
-				}
-				//Beep_SatrtFlg = 3;
-			}else
-			{
-			}
 		}else{
 			if ((KEY1_Count > 3) && (KEY1_Count < 1000))
 			{
-				UltraModule = 2;
-				if (UltraModule > 2)
-				{
-					UltraModule = 2;
-				}else
-				{
-				}
-				Beep_SatrtFlg = 2;
-				Key1_Sta = 1;
+				BeepState = DEV_WORK;
+				DevWorkState = WORK_STATE;
+				UltraDuty = 25;
 			}else
 			{
+				
 			}
-			Key1_Sta = 0;
 			KEY1_Count = 0;
 		}
-		
 		/**********************按键2触发事件*********************** */
 		if(KEY2_Flg == 1)
 		{
 			KEY2_Count++;
-			if ((KEY2_Count >= 1000) && (Key2_Sta == 0))
-			{
-					Motor_Level--;
-					if (Motor_Level < 1)
-					{
-					Motor_Level = 1;
-					}else
-					{
-					}
-					Beep_SatrtFlg = 3;
-			}else
-			{
-			}
 		}else{
 			if ((KEY2_Count > 3) && (KEY2_Count < 1000))
 			{		
-					UltraModule = 1;
-					if (UltraModule < 1)
-					{
-					UltraModule = 1;
-					}else
-					{
-					}
-					Key2_Sta = 1;
-					//Beep_SatrtFlg = 2;
+					BeepState = DEV_WORK;
+					DevWorkState = WORK_STATE;
+					UltraDuty = 66;
 			}else
 			{
 			}
-			Key2_Sta = 0;
 			KEY2_Count = 0;
 		}
 		/**********************电源键触发事件**********************************/
@@ -219,37 +183,23 @@ void TIM17_IRQHandler(void)
 		if (PowerOn_Flg == 1)
 		{
 			POWER_Count++;
-			if ((POWER_Count > 1500) && (PowerOff_Flg == 1) && (SetFlg == 0))
+			if((POWER_Count > 2000) && (SetFlg == 0) && (ChargeFlg != 1))
 			{
-				PowerOff_Flg = 0;
-				SetFlg = 1;
-			}else if ((POWER_Count > 1500) && (PowerOff_Flg == 0) && (SetFlg == 0))
-			{
-				PowerOff_Flg = 1;
-				SetFlg = 1;
-			}else
-			{
+					PowerOff_Flg = PowerOff_Flg ^ 0x01;
+					BeepState = DEV_STARTUP;
+					SetFlg = 1;
 			}
 		}else
 		{
 			if ((POWER_Count > 3) && (POWER_Count < 1000))
 			{
-				if((WorkStart_Flg == 1) || (Led_RedFlg != 0))
-				{
-					WorkStart_Flg = 0;
-					Beep_SatrtFlg = 4;
-				}else if((WorkStart_Flg == 0) && (Led_RedFlg == 0))
-				{	
-					WorkStart_Flg = 1;
-					Beep_SatrtFlg = 1;
-				}else
-				{
-				}
+					BeepState = DEV_WORK;
+					DevWorkState = PAUSE_STATE;
 			}else
 			{
 			}
-			SetFlg = 0;
 			POWER_Count = 0;
+			SetFlg = 0;
 		}
 		TIM_ClearITPendingBit(TIM17, TIM_IT_Update);
 	}

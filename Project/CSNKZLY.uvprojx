@@ -448,9 +448,9 @@
               <FilePath>..\Devices\App.c</FilePath>
             </File>
             <File>
-              <FileName>dev_ad9877.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\dev_ad9877.c</FilePath>
+              <FileName>App.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\App.h</FilePath>
             </File>
             <File>
               <FileName>dev_adc.c</FileName>
@@ -458,9 +458,29 @@
               <FilePath>..\Devices\dev_adc.c</FilePath>
             </File>
             <File>
-              <FileName>dev_exit.c</FileName>
+              <FileName>dev_adc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_adc.h</FilePath>
+            </File>
+            <File>
+              <FileName>dev_ad9877.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\Devices\dev_exit.c</FilePath>
+              <FilePath>..\Devices\dev_ad9877.c</FilePath>
+            </File>
+            <File>
+              <FileName>dev_ad9877.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_ad9877.h</FilePath>
+            </File>
+            <File>
+              <FileName>dev_beep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\dev_beep.c</FilePath>
+            </File>
+            <File>
+              <FileName>dev_beep.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_beep.h</FilePath>
             </File>
             <File>
               <FileName>dev_flash.c</FileName>
@@ -468,19 +488,34 @@
               <FilePath>..\Devices\dev_flash.c</FilePath>
             </File>
             <File>
+              <FileName>dev_flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_flash.h</FilePath>
+            </File>
+            <File>
               <FileName>dev_gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Devices\dev_gpio.c</FilePath>
             </File>
             <File>
-              <FileName>dev_pid.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Devices\dev_pid.c</FilePath>
+              <FileName>dev_gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_gpio.h</FilePath>
             </File>
             <File>
               <FileName>dev_pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Devices\dev_pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>dev_pwm.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Devices\dev_pwm.h</FilePath>
+            </File>
+            <File>
+              <FileName>dev_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Devices\dev_led.c</FilePath>
             </File>
           </Files>
         </Group>

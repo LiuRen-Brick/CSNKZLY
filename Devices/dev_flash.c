@@ -3,8 +3,6 @@
 #include "dev_pwm.h"
 
 union DATA_STORE Data_Store;
-extern uint8_t SetFreq_Flg;
-extern uint8_t Clear_Flg;
 /*
  * 函数: Flash_Write
  * 功能: 将数据写入指定地址的Flash存储器
@@ -89,35 +87,8 @@ void UltraParam_Init(void)
 				Flash_Write(FLASHSTORE,&Data_Store.data,1);
 		}
 		
-		fre = 1040 * 2 * 1000;//1900000 + 4000 * Data_Store.Ultra_Config.Frequency;    //默认驱动频率1.02M
+		fre = 1040 * 2 * 1000;//1900000 + 4000 * Data_Store.Ultra_Config.Frequency;    //默认驱动频率1.00M
 		Devpwm_SetDuty(SET_PWM3,100);
 		AD9833_InitIo(AD9877_Ch_A);
 		AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,fre,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
 }
-
-void UltraParam_Set(void)
-{
-		static uint8_t SetFreq_Flg_old = 0;
-    static uint8_t Clear_Flg_old = 0;
-		uint32_t fre = 0;
-	
-	  if((SetFreq_Flg_old != SetFreq_Flg) && (SetFreq_Flg == 1))
-		{
-				Data_Store.Ultra_Config.Frequency++;
-				fre = 1900000 + 4000 * Data_Store.Ultra_Config.Frequency;
-			  AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,fre,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
-			  Flash_Write(FLASHSTORE,&Data_Store.data,1);
-		}else{}
-			
-		if((Clear_Flg_old != Clear_Flg) && (Clear_Flg == 1))
-		{
-				Data_Store.Ultra_Config.Frequency = 0;
-				fre = 1900000 + 4000 * Data_Store.Ultra_Config.Frequency;
-			  AD9833_SetPara(AD9877_Ch_A,AD9833_REG_FREQ0,fre,AD9833_REG_PHASE1,2048,AD9833_OUT_TRIANGLE);
-			  Flash_Write(FLASHSTORE,&Data_Store.data,1);
-		}else{}
-			
-		SetFreq_Flg_old = SetFreq_Flg;
-		Clear_Flg_old = Clear_Flg;
-}
-
